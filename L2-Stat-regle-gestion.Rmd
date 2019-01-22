@@ -13,7 +13,6 @@ library(assertthat)
 library(xlsx)
 library(questionr)
 
-source("Parametres.R")
 source("Statistiques.R")
 ```
 # L2-Statistiques et regles de gestion
@@ -58,12 +57,12 @@ lignes<-lignes%>% select(-nb)
 Nous avons identifie 130 doublons.
 
 
-  + On recupere uniquement les informations reliees entre elles : A Savoir uniquement les clients qui ont un entete ticket, lui meme rattache à une ligne ticket, et dont l'article est reference. Condition à respecter --  "inner join" entre les tables 
+  + On recupere uniquement les informations reliees entre elles : A Savoir uniquement les clients qui ont un entete ticket, lui meme rattache a une ligne ticket, et dont l'article est reference. Condition a respecter --  "inner join" entre les tables 
 
   + jointure interne entre la table client et la table magasin 
 
 ```{r clients ~ magasin}
-#nb de client?
+#nb de clienta
 PERIMETRE<-merge(clients,magasins,by.x="MAGASIN", by.y="CODESOCIETE",all=FALSE)
 #845 876 clients
 #afficher le nombre de client
@@ -98,7 +97,7 @@ article_ligne<-merge(lignes,articles,by.x="IDARTICLE", by.y="CODEARTICLE",all.x=
 ```{r analyse articles null}
 article_ligne[is.na(CODEUNIVERS)==TRUE,.(nb=.N), by=IDARTICLE]
 ```
-  + Nous constatons que l'IDARTICLE "395460" n'existe pas dans la table article et qu'il y a 31 lignes ticket lie à ce dernier, il faut donc le rajouter :
+  + Nous constatons que l'IDARTICLE "395460" n'existe pas dans la table article et qu'il y a 31 lignes ticket lie a ce dernier, il faut donc le rajouter :
 ```{r analyse articles creation}
 newarticle <- data.table(CODEARTICLE="395460",CODEUNIVERS="unknown",CODEFAMILLE="unknown", CODESOUSFAMILLE="unknown")
 articles<- rbind(articles,newarticle)
