@@ -1,0 +1,113 @@
+---
+title: "L2-Statistiques et regles de gestion"
+author: "Thomas FONTAINE, Dan GOLDMAN, Juliette LEMAINS, Nicolas ROBIN"
+date: "22 janvier 2019"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+library(dplyr)
+library(data.table)
+library(readxl)
+library(assertthat)
+library(xlsx)
+library(questionr)
+
+source("Parametres.R")
+source("Statistiques.R")
+```
+# L2-Statistiques et règles de gestion
+
+## Statistiques des différentes tables
+
+```{r articles}
+statistiques(articles)
+```
+
+```{r magasins}
+statistiques(magasins)
+```
+
+```{r clients}
+statistiques(clients)
+```
+
+```{r entete}
+statistiques(entetes)
+```
+
+```{r lignes}
+statistiques(lignes)
+```
+
+## Règles de gestions
+
+Nous décidons d'effectuer plusieurs opérations sur les tables afin d'avoir un ensemble de données cohérentes. Pour cela nous allons suivre plusieurs étapes :
+
+* Nous éliminons les doublons dans la table "Lignes Ticket":
+Identification des doublons:
+```{r doublons - identification}
+lignes<-lignes[,.(nb=.N), by=c("IDTICKET","NUMLIGNETICKET","IDARTICLE","QUANTITE", "MONTANTREMISE", "TOTAL", "MARGESORTIE")]
+```
+
+Dédoublonnage:
+```{r doublons - suppression}
+lignes<-lignes%>% select(-nb)
+```
+
+Nous avons identifié 130 doublons.
+
+
+  + On récupere uniquement les informations reliées entre elles : A Savoir uniquement les clients qui ont un entete ticket, lui meme rattaché à une ligne ticket, et dont l'article est reference. Condition à respecter --  "inner join" entre les tables 
+
+  + jointure interne entre la table client et la table magasin 
+
+```{r clients ~ magasin}
+#nb de client?
+PERIMETRE<-merge(clients,magasins,by.x="MAGASIN", by.y="CODESOCIETE",all=FALSE)
+#845 876 clients
+#afficher le nombre de client
+PERIMETRE[,.(nb_clients=length(unique(IDCLIENT)))]
+```
+
+  + jointure interne entre la table client-magasins et entete
+```{r clients/magasins ~ entete}
+#845 876 clients
+PERIMETRE<-merge(PERIMETRE, entetes, by="IDCLIENT", all=FALSE)
+#nombre de client : 770 163
+#75 713 client de la base n'ont pas effectue d'achat
+#afficher le nombre de client
+PERIMETRE[,.(nb_clients=length(unique(IDCLIENT)))]
+```
+
+  + jointure interne entre la table client-magasins-entete et ligne ticket
+```{r clients/magasins/entete ~ ligne_ticket}
+PERIMETRE<-merge(PERIMETRE,lignes,by="IDTICKET", all=FALSE)
+#afficher nombre de client :770 163
+PERIMETRE[,.(nb_clients=length(unique(IDCLIENT)))]
+#afficher nombre d'entete ticket : 6 713 822
+#351 entetes tickets n'ont pas de lignes ticket
+PERIMETRE[,.(nb_clients=length(unique(IDTICKET)))]
+```
+
+* Analyse table article avec la table ligne ticket : jointure externe
+```{r analyse articles}
+article_ligne<-merge(lignes,articles,by.x="IDARTICLE", by.y="CODEARTICLE",all.x=TRUE)
+```
+  + Analyse pour savoir si tous les articles de la table lignes existe bien dans la table article :
+```{r analyse articles null}
+article_ligne[is.na(CODEUNIVERS)==TRUE,.(nb=.N), by=IDARTICLE]
+```
+  + Nous constatons que l'IDARTICLE "395460" n'existe pas dans la table article et qu'il y a 31 lignes ticket lié à ce dernier, il faut donc le rajouter :
+```{r analyse articles creation}
+newarticle <- data.table(CODEARTICLE="395460",CODEUNIVERS="unknown",CODEFAMILLE="unknown", CODESOUSFAMILLE="unknown")
+articles<- rbind(articles,newarticle)
+```
+  + Jointure interne entre la table client-magasins-entete-ligne et article (avec l'ajout du nouvel article)
+```{r clients/magasins/entete/lignes ~ articles}
+PERIMETRE<-merge(PERIMETRE,articles,by.x="IDARTICLE", by.y="CODEARTICLE", all=FALSE)
+#afficher le nombre de client :770 163
+PERIMETRE[,.(nb_clients=length(unique(IDCLIENT)))]
+#afficher nombre d'entete ticket : 6 713 822
+PERIMETRE[,.(nb_clients=length(unique(IDTICKET)))]
+```

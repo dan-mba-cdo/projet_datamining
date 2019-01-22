@@ -11,7 +11,7 @@ lignes<-lignes%>% select(-nb)
 #Condition à respecter --  "inner join" entre les tables
 #jointure interne entre la table client et la table magasin
 #845 876 clients
-PERIMETRE<-merge(clients,magasins,by.x="MAGASIN", by.y="CODESOCIETE",all=FALSE)
+PERIMETRE<-merge(clients,magasin,by.x="MAGASIN", by.y="CODESOCIETE",all=FALSE)
 
 #jointure interne entre la table client-magasin et entete
 PERIMETRE<-merge(PERIMETRE, entetes, by="IDCLIENT", all=FALSE)
