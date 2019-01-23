@@ -104,9 +104,11 @@ articles<- rbind(articles,newarticle)
 ```
   + Jointure interne entre la table client-magasins-entete-ligne et article (avec l'ajout du nouvel article)
 ```{r clients/magasins/entete/lignes ~ articles}
-PERIMETRE<-merge(PERIMETRE,articles,by.x="IDARTICLE", by.y="CODEARTICLE", all=FALSE)
+#PERIMETRE<-merge(PERIMETRE,articles,by.x="IDARTICLE", by.y="CODEARTICLE", all=FALSE)
 #afficher le nombre de client :770 163
-PERIMETRE[,.(nb_clients=length(unique(IDCLIENT)))]
+#PERIMETRE[,.(nb_clients=length(unique(IDCLIENT)))]
 #afficher nombre d'entete ticket : 6 713 822
-PERIMETRE[,.(nb_clients=length(unique(IDTICKET)))]
+#PERIMETRE[,.(nb_clients=length(unique(IDTICKET)))]
+table_finale[,.(nb_client=nb_client)]
+table_finale[,.(nb_entete_ticket=nb_entete_ticket)]
 ```

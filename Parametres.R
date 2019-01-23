@@ -278,5 +278,5 @@ clients <- chargementTableClients(chemin_dossier_donnees_selectionne)
 entetes <- chargementTableEntetes(chemin_dossier_donnees_selectionne)
 lignes <- chargementTableLignes(chemin_dossier_donnees_selectionne)
 insee <- chargementTableInsee(chemin_dossier_donnees_selectionne)
-
+table_finale<-data.table(nb_client=770163, nb_entete_ticket=6713822)
   
