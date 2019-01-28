@@ -40,12 +40,17 @@ statistiques(lignes)
 ```
 ## Perimetre d'analyse - Scope des données
 Les données se trouvent dans différentes tables, il est donc important de connaitre leur relation et d’en déduire leur cardinalité. L’objectif de ce travail d’analyse est de faire émerger un périmètre de données cohérent.
-Notre périmètre d’analyse est le suivant : Tous les clients qui ont effectué au moins 1 achat d’un article existant.
+
+* Notre périmètre d’analyse est le suivant : *Tous les clients qui ont effectué au moins 1 achat d’un article existant.*
+
 Ce périmètre d’analyse se traduit au niveau des données de la manière suivante :
 A partir de la table "client", nous effectuons des jointures internes, nommée "inner join" avec l’ensemble des autres tables du schéma (cf. schema de donnée)
-Notre scope de donnée est donc le suivant : tous les identifiants clients qui existent dans la table "entête ticket" et dont l’identifiant entête existe dans la table « ligne ticket » et dont l'identifiant article existe dans la table article.
+
+* Notre scope de donnée est donc le suivant : *Tous les identifiants clients qui existent dans la table "entête ticket" et dont l’identifiant entête existe dans la table « ligne ticket » et dont l'identifiant article existe dans la table article.*
+
 A chaque jointure entre 2 tables, nous comptons le nombre de client. Ce contrôle permet de nous assurer de la cohérences des données entre les tables ainsi que de constater le nombre de client qui sortent de notre scope d'analyse.
 A côté de cela, nous faisons un contrôle d’intégrité des données. 
+
 Nous vous présentons ci-dessous l’ensemble des règle de gestion que nous avons appliqué pour définir notre périmètre d'analyse
 
 
@@ -54,12 +59,12 @@ Nous vous présentons ci-dessous l’ensemble des règle de gestion que nous avo
 Nous decidons d'effectuer plusieurs operations sur les tables afin d'avoir un ensemble de donnees coherentes. Pour cela nous allons suivre plusieurs etapes :
 
 * Nous eliminons les doublons dans la table "Lignes Ticket":
-Identification des doublons:
+**Identification des doublons:**
 ```{r doublons - identification}
 lignes<-lignes[,.(nb=.N), by=c("IDTICKET","NUMLIGNETICKET","IDARTICLE","QUANTITE", "MONTANTREMISE", "TOTAL", "MARGESORTIE")]
 ```
 
-Dedoublonnage:
+**Dedoublonnage:**
 ```{r doublons - suppression}
 lignes<-lignes%>% select(-nb)
 ```
@@ -67,7 +72,7 @@ lignes<-lignes%>% select(-nb)
 Nous avons identifie 130 doublons.
 
 
-  + jointure interne entre la table client et la table magasin 
+* jointure interne entre la table client et la table magasin 
 
 ```{r clients ~ magasin}
 #nb de clienta
@@ -77,7 +82,7 @@ PERIMETRE<-merge(clients,magasins,by.x="MAGASIN", by.y="CODESOCIETE",all=FALSE)
 PERIMETRE[,.(nb_clients=length(unique(IDCLIENT)))]
 ```
 
-  + jointure interne entre la table client-magasins et entete
+* jointure interne entre la table client-magasins et entete
 ```{r clients/magasins ~ entete}
 #845 876 clients
 PERIMETRE<-merge(PERIMETRE, entetes, by="IDCLIENT", all=FALSE)
@@ -87,7 +92,7 @@ PERIMETRE<-merge(PERIMETRE, entetes, by="IDCLIENT", all=FALSE)
 PERIMETRE[,.(nb_clients=length(unique(IDCLIENT)))]
 ```
 
-  + jointure interne entre la table client-magasins-entete et ligne ticket
+* jointure interne entre la table client-magasins-entete et ligne ticket
 ```{r clients/magasins/entete ~ ligne_ticket}
 PERIMETRE<-merge(PERIMETRE,lignes,by="IDTICKET", all=FALSE)
 #afficher nombre de client :770 163
@@ -101,16 +106,16 @@ PERIMETRE[,.(nb_clients=length(unique(IDTICKET)))]
 ```{r analyse articles}
 article_ligne<-merge(lignes,articles,by.x="IDARTICLE", by.y="CODEARTICLE",all.x=TRUE)
 ```
-  + Analyse pour savoir si tous les articles de la table lignes existe bien dans la table article :
+*Analyse pour savoir si tous les articles de la table lignes existe bien dans la table article :*
 ```{r analyse articles null}
 article_ligne[is.na(CODEUNIVERS)==TRUE,.(nb=.N), by=IDARTICLE]
 ```
-  + Nous constatons que l'IDARTICLE "395460" n'existe pas dans la table article et qu'il y a 31 lignes ticket lie a ce dernier, il faut donc creer cette article en le rajoutant dans la table article :
+*Nous constatons que l'IDARTICLE "395460" n'existe pas dans la table article et qu'il y a 31 lignes ticket lie a ce dernier, il faut donc creer cette article en le rajoutant dans la table article :*
 ```{r analyse articles creation}
 newarticle <- data.table(CODEARTICLE="395460",CODEUNIVERS="unknown",CODEFAMILLE="unknown", CODESOUSFAMILLE="unknown")
 articles<- rbind(articles,newarticle)
 ```
-  + Jointure interne entre la table client-magasins-entete-ligne et article (avec l'ajout du nouvel article)
+*Jointure interne entre la table client-magasins-entete-ligne et article (avec l'ajout du nouvel article)*
 ```{r clients/magasins/entete/lignes ~ articles}
 #PERIMETRE<-merge(PERIMETRE,articles,by.x="IDARTICLE", by.y="CODEARTICLE", all=FALSE)
 #afficher le nombre de client :770 163
