@@ -24,7 +24,7 @@ source("Statistiques.R")
 ```
 # Projet Transverse - Livrable 2
 
-Pour le projet sur lequel nous devons travailler,  nous avons fait le choix de considerer que l'enseigne est une chaene de magasins de jardinerie. 
+Pour le projet sur lequel nous devons travailler,  nous avons fait le choix de considerer que l'enseigne est une chaine de magasins de jardinerie. 
 
 <center>
 ![](Botanica.png)
@@ -53,7 +53,7 @@ L'architecture des tables est reparties en 5 tables distinctes :`
 
 ![](structure.png)
 
-Nous avons dans un premier temps procede e l'analyse statistique des donnees pour chacune des tables.
+Nous avons dans un premier temps procede a l'analyse statistique des donnees pour chacune des tables.
 
 ## I.3 - Statistiques des differentes tables
 
@@ -64,7 +64,7 @@ Nous avons dans un premier temps procede e l'analyse statistique des donnees pou
 resume_structure(articles)
 ```
 
-### Tris e plat
+### Tris a plat
 ```{r articles_tris_a_plat, echo=FALSE}
 tris_a_plat(articles)
 ```
@@ -88,7 +88,7 @@ statistiques(articles)
 resume_structure(magasins)
 ```
 
-### Tris e plat
+### Tris a plat
 ```{r magasins_tris_a_plat, echo=FALSE}
 tris_a_plat(magasins)
 ```
@@ -112,7 +112,7 @@ statistiques(magasins)
 resume_structure(clients)
 ```
 
-### Tris e plat
+### Tris a plat
 ```{r clients_tris_a_plat, echo=FALSE}
 tris_a_plat(clients)
 ```
@@ -136,7 +136,7 @@ statistiques(clients)
 resume_structure(entetes)
 ```
 
-### Tris e plat
+### Tris a plat
 ```{r entetes_tris_a_plat, echo=FALSE}
 tris_a_plat(entetes)
 ```
@@ -158,7 +158,7 @@ statistiques(entetes)
 resume_structure(lignes)
 ```
 
-### Tris e plat
+### Tris a plat
 ```{r lignes_tris_a_plat, echo=FALSE}
 tris_a_plat(lignes)
 ```
@@ -179,14 +179,14 @@ statistiques(lignes)
 ## II - Perimetre d'analyse - Scope des donnees
 Les donnees se trouvent dans differentes tables, il est donc important de connaitre leur relation et d'en deduire leur cardinalite. L'objectif de ce travail d'analyse est de faire emerger un perimetre de donnees coherent.
 
-* Notre perimetre d'analyse est le suivant : **Tous les clients qui ont effectue au moins 1 achat d'un article existant.**Ce perimetre d'analyse se traduit au niveau des donnees de la maniere suivante : *A partir de la table "client", nous effectuons des jointures internes, grace e la fonction "inner join" avec l'ensemble des autres tables du schema (cf. schema de donnee)*
+* Notre perimetre d'analyse est le suivant : **Tous les clients qui ont effectue au moins 1 achat d'un article existant.**Ce perimetre d'analyse se traduit au niveau des donnees de la maniere suivante : *A partir de la table "client", nous effectuons des jointures internes, grace a la fonction "inner join" avec l'ensemble des autres tables du schema (cf. schema de donnee)*
 
-* Notre scope de donnee est donc le suivant : **Tous les identifiants clients qui existent dans la table "entete ticket" et dont l'identifiant entete existe dans la table e ligne ticket e et dont l'identifiant article existe dans la table article.**
+* Notre scope de donnee est donc le suivant : **Tous les identifiants clients qui existent dans la table "entete ticket" et dont l'identifiant entete existe dans la table "ligne ticket" et dont l'identifiant article existe dans la table "article".**
 
-A chaque jointure entre 2 tables, nous comptons le nombre de client. Ce contrele permet de nous assurer de la coherences des donnees entre les tables ainsi que de constater le nombre de client qui sortent de notre scope d'analyse.
-A cete de cela, nous faisons un contrele d'integrite des donnees. 
+A chaque jointure entre 2 tables, nous comptons le nombre de client. Ce controle permet de nous assurer de la coherences des donnees entre les tables ainsi que de constater le nombre de client qui sortent de notre scope d'analyse.
+A cote de cela, nous faisons un controle d'integrite des donnees. 
 
-Nous vous presentons dans la suite l'ensemble des regles de gestion que nous avons appliquees pour definir notre perimetre d'analyse.
+Nous vous presentons ci dessous l'ensemble des regles de gestion que nous avons appliquees pour definir notre perimetre d'analyse.
 
 
 ## III - Regles de gestions
@@ -274,7 +274,7 @@ article_ligne<-merge(lignes,articles,by.x="IDARTICLE", by.y="CODEARTICLE",all.x=
 ```{r analyse articles null}
 article_ligne[is.na(CODEUNIVERS)==TRUE,.(nb=.N), by=IDARTICLE]
 ```
-&nbsp;&nbsp;&nbsp;&nbsp;*Nous constatons que l'IDARTICLE "395460" n'existe pas dans la table article et qu'il y a 31 lignes ticket lie a ce dernier, il faut donc creer cette article en le rajoutant dans la table article :*
+&nbsp;&nbsp;&nbsp;&nbsp;*Nous constatons que l'IDARTICLE "395460" n'existe pas dans la table article et qu'il y a 31 lignes ticket lie a ce dernier, il faut donc creer cet article en le rajoutant dans la table article :*
 ```{r analyse articles creation}
 newarticle <- data.table(CODEARTICLE="395460",CODEUNIVERS="unknown",CODEFAMILLE="unknown", CODESOUSFAMILLE="unknown")
 articles<- rbind(articles,newarticle)
