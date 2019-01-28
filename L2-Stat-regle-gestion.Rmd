@@ -38,6 +38,16 @@ statistiques(entetes)
 ```{r lignes}
 statistiques(lignes)
 ```
+## Perimetre d'analyse - Scope des données
+Les données se trouvent dans différentes tables, il est donc important de connaitre leur relation et d’en déduire leur cardinalité. L’objectif de ce travail d’analyse est de faire émerger un périmètre de données cohérent.
+Notre périmètre d’analyse est le suivant : Tous les clients qui ont effectué au moins 1 achat d’un article existant.
+Ce périmètre d’analyse se traduit au niveau des données de la manière suivante :
+A partir de la table "client", nous effectuons des jointures internes, nommée "inner join" avec l’ensemble des autres tables du schéma (cf. schema de donnée)
+Notre scope de donnée est le suivant : tous les identifiants clients qui existent dans la table "entête ticket" et dont l’identifiant entête existe dans la table « ligne ticket » et dont l'identifiant article existe dans la table article.
+A chaque jointure entre 2 tables, nous comptons le nombre de client. Ce contrôle permet de nous assurer de la cohérences des données entre les tables ainsi que de constater le nombre de client qui sortent de notre scope d'analyse.
+A côté de cela, nous faisons un contrôle d’intégrité des données. 
+Nous vous présentons ci-dessous l’ensemble des règle de gestion que nous avons appliqué pour définir notre périmètre des données
+
 
 ## Regles de gestions
 
@@ -56,8 +66,6 @@ lignes<-lignes%>% select(-nb)
 
 Nous avons identifie 130 doublons.
 
-
-  + On recupere uniquement les informations reliees entre elles : A Savoir uniquement les clients qui ont un entete ticket, lui meme rattache a une ligne ticket, et dont l'article est reference. Condition a respecter --  "inner join" entre les tables 
 
   + jointure interne entre la table client et la table magasin 
 
@@ -97,7 +105,7 @@ article_ligne<-merge(lignes,articles,by.x="IDARTICLE", by.y="CODEARTICLE",all.x=
 ```{r analyse articles null}
 article_ligne[is.na(CODEUNIVERS)==TRUE,.(nb=.N), by=IDARTICLE]
 ```
-  + Nous constatons que l'IDARTICLE "395460" n'existe pas dans la table article et qu'il y a 31 lignes ticket lie a ce dernier, il faut donc le rajouter :
+  + Nous constatons que l'IDARTICLE "395460" n'existe pas dans la table article et qu'il y a 31 lignes ticket lie a ce dernier, il faut donc creer cette article en le rajoutant dans la table article :
 ```{r analyse articles creation}
 newarticle <- data.table(CODEARTICLE="395460",CODEUNIVERS="unknown",CODEFAMILLE="unknown", CODESOUSFAMILLE="unknown")
 articles<- rbind(articles,newarticle)
