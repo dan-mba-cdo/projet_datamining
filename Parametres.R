@@ -13,7 +13,7 @@
 # plutôt que les fichiers d'entrée volumineux du projet. Cela permet de travailler sur des machines moins véloces.
 # Mettre la valeur à TRUE lorsque l'on désire travailler avec des fichiers plus petits.
 # Ne pas oublier de mettre cette valeur à FALSE lorsque le projet est finalisé.
-utilise_des_extraits_de_fichier <- FALSE
+utilise_des_extraits_de_fichier <- TRUE
 
 # Boolean qui modifie le comportement de l'application si on l'exécute depuis R-Markdown ou depuis le fichier "Projet.R".
 execution_avec_RMarkdown <- TRUE
@@ -21,11 +21,17 @@ execution_avec_RMarkdown <- TRUE
 # Declaration de la variable pour l'annee en cours 
 ANNEE_EN_COURS <- 2018
 
+# Définition du nombre maximal pour l'affichage des modalités.
+NB_MODALITES_MAX = 40
+
+# Definition de la precision quand un arrondi est effectué.
+PRECISION = 3
+
 # Chemins de dossier des fichiers de donnée respectifs dans le cas où on n'utilise pas la boite de dialogue.
 chemin_dossier_donnees_Thomas <- "C:/Users/timti/Documents/R/Rproject/DATA/"
 chemin_dossier_donnees_Dan <- "C:/Users/dgoldman/Desktop/MBA - BIG DATA CDO/DataMining/projet transverse R/Projet R a rendre/DATA/"
 chemin_dossier_donnees_Juliette <- "C:/Users/Juliette/Rproject/DATA_UTF-8/"
-chemin_dossier_donnees_Nicolas <- "/Users/nrobin/Documents/GitHub/Rproject/DATA_UTF-8/"
+chemin_dossier_donnees_Nicolas <- "/Users/nrobin/Documents/GitHub/projet_datamining/"
 
 # SELECTION DU CHEMIN DE DOSSIER DES FICHIERS DE DONNEES PAR DEFAUT.
 # Pour sélectionner le dossier des fichiers de donnée avec la boite de dialogue :
@@ -35,7 +41,7 @@ chemin_dossier_donnees_Nicolas <- "/Users/nrobin/Documents/GitHub/Rproject/DATA_
 #   à son environnement de travail.
 #   Dans ce cas cela signifie qu'on lance l'exécution du programme à partir du fichier "Projet.Rmd"
 if (execution_avec_RMarkdown == TRUE) {
-  chemin_dossier_donnees_par_default <- chemin_dossier_donnees_Dan
+  chemin_dossier_donnees_par_default <- chemin_dossier_donnees_Juliette
 }else{
   # Le dossier sera sélectionné par l'utilisateur lors de l'exécution du programme lors
   # de l'appel de la fonction cheminDossierFichiersDonnees()
@@ -47,7 +53,7 @@ if (execution_avec_RMarkdown == TRUE) {
 # Elles sont automatiquement sélectionnées et installées dans le cas où elles sont manquantes.
 chargementDesLibraries <- function() {
   
-  libraries_utilies <- c('assertthat', 'data.table', 'dplyr', 'formattable', 'ggplot2', 'plotly', 'rAmCharts', 'stringr', 'svDialogs', 'tinytex','bit64')
+  libraries_utilies <- c('assertthat', 'data.table', 'dplyr', 'DT', 'dygraphs','flextable', 'formattable', 'ggplot2', 'grid', 'gridExtra', 'knitr', 'kableExtra', 'pander', 'plotly', 'rAmCharts', 'stringr', 'svDialogs', 'tidyverse', 'tinytex','bit64')
   
   for (package in libraries_utilies) {
     if (!require(package, character.only=T, quietly=T)) {

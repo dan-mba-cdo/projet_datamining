@@ -1,9 +1,15 @@
 ---
-title: "L2-Statistiques et regles de gestion"
+title: "L2-Statistiques et règles de gestion"
 author: "Thomas FONTAINE, Dan GOLDMAN, Juliette LEMAINS, Nicolas ROBIN"
-date: "22 janvier 2019"
-output: html_document
+date: "27 janvier 2019"
+output: 
+  html_document: default
 ---
+
+```{r global_options, include=FALSE}
+knitr::opts_chunk$set(fig.width=12, fig.height=8, fig.path='Figs/',
+                      echo=TRUE, warning=FALSE, message=FALSE)
+```
 
 ```{r setup, include=FALSE}
 library(dplyr)
@@ -12,116 +18,284 @@ library(readxl)
 library(assertthat)
 library(xlsx)
 library(questionr)
+library(showtext)
 
-source("Statistiques.R")
+source("Statistiques_NR.R")
 ```
-# L2-Statistiques et regles de gestion
+# Projet Transverse - Livrable 2
 
-## Statistiques des differentes tables
+Pour le projet sur lequel nous devons travailler,  nous avons fait le choix de considérer que l'enseigne est une chaîne de magasins de jardinerie. 
 
-```{r articles}
+<center>
+![](Botanica.png)
+</center>
+
+---
+
+# I - Statistiques et règles de gestion
+
+## I.1 - Livrable attendu
+
+* Fournir les statistiques des différentes tables
+* Faire une proposition éventuelle de règles de gestion et de correction des données manquantes et aberrantes.
+* Faire une proposition des indicateurs clefs, aux fins de servir la problématique et les règles de construction des indicateurs.
+
+
+## I.2 - Architecture
+
+L'architecture des tables est réparties en 5 tables distinctes :`
+
+* Articles
+* Client
+* Entetes-clients
+* Lignes-tickets
+* Magasins
+
+![](structure.png)
+
+Nous avons dans un premier temps procédé à l'analyse statistique des données pour chacune des tables.
+
+## I.3 - Statistiques des différentes tables
+
+## I.3.1 - Table Articles {.tabset}
+
+### Structure
+```{r articles_structure, echo=FALSE}
+resume_structure(articles)
+```
+
+### Tris à plat
+```{r articles_tris_a_plat, echo=FALSE}
+tris_a_plat(articles)
+```
+
+### Statistiques de base
+```{r articles_stat_de_base, echo=FALSE}
+statistiques_de_base(articles)
+```
+
+### Sortie Console
+```{r articles_Sortie Console_stats, echo=FALSE}
 statistiques(articles)
 ```
 
-```{r magasins}
+---
+
+## I.3.2 - Table Magasins {.tabset}
+
+### Structure
+```{r magasins_structure, echo=FALSE}
+resume_structure(magasins)
+```
+
+### Tris à plat
+```{r magasins_tris_a_plat, echo=FALSE}
+tris_a_plat(magasins)
+```
+
+### Statistiques de base
+```{r magasins_stat_de_base, echo=FALSE}
+statistiques_de_base(magasins)
+```
+
+### Sortie Console
+```{r magasins_Sortie Console_stats, echo=FALSE}
 statistiques(magasins)
 ```
 
-```{r clients}
+---
+
+## I.3.3 - Table Clients {.tabset}
+
+### Structure
+```{r clients_structure, echo=FALSE}
+resume_structure(clients)
+```
+
+### Tris à plat
+```{r clients_tris_a_plat, echo=FALSE}
+tris_a_plat(clients)
+```
+
+### Statistiques de base
+```{r clients_stat_de_base, echo=FALSE}
+statistiques_de_base(clients)
+```
+
+### Sortie Console
+```{r clients_Sortie Console_stats, echo=FALSE}
 statistiques(clients)
 ```
 
-```{r entete}
+---
+
+## I.3.4 - Table Entêtes {.tabset}
+
+### Structure
+```{r entetes_structure, echo=FALSE}
+resume_structure(entetes)
+```
+
+### Tris à plat
+```{r entetes_tris_a_plat, echo=FALSE}
+tris_a_plat(entetes)
+```
+
+### Statistiques de base
+```{r entetes_stat_de_base, echo=FALSE}
+statistiques_de_base(entetes)
+```
+
+### Sortie Console
+```{r entetes_Sortie Console_stats, echo=FALSE}
 statistiques(entetes)
 ```
 
-```{r lignes}
+## I.3.5 - Table Lignes {.tabset}
+
+### Structure
+```{r lignes_structure, echo=FALSE}
+resume_structure(lignes)
+```
+
+### Tris à plat
+```{r lignes_tris_a_plat, echo=FALSE}
+tris_a_plat(lignes)
+```
+
+### Statistiques de base
+```{r lignes_stat_de_base, echo=FALSE}
+statistiques_de_base(lignes)
+```
+
+### Sortie Console
+```{r lignes_Sortie Console_stats, echo=FALSE}
 statistiques(lignes)
 ```
-## Perimetre d'analyse - Scope des donnÃ©es
-Les donnÃ©es se trouvent dans diffÃ©rentes tables, il est donc important de connaitre leur relation et dâ€™en dÃ©duire leur cardinalitÃ©. Lâ€™objectif de ce travail dâ€™analyse est de faire Ã©merger un pÃ©rimÃ¨tre de donnÃ©es cohÃ©rent.
 
-* Notre pÃ©rimÃ¨tre dâ€™analyse est le suivant : *Tous les clients qui ont effectuÃ© au moins 1 achat dâ€™un article existant.*
+---
+&nbsp;&nbsp
 
-Ce pÃ©rimÃ¨tre dâ€™analyse se traduit au niveau des donnÃ©es de la maniÃ¨re suivante :
-A partir de la table "client", nous effectuons des jointures internes, nommÃ©e "inner join" avec lâ€™ensemble des autres tables du schÃ©ma (cf. schema de donnÃ©e)
+## II - Perimetre d'analyse - Scope des données
+Les données se trouvent dans différentes tables, il est donc important de connaitre leur relation et d'en déduire leur cardinalité. L'objectif de ce travail d'analyse est de faire émerger un périmètre de données cohérent.
 
-* Notre scope de donnÃ©e est donc le suivant : *Tous les identifiants clients qui existent dans la table "entÃªte ticket" et dont lâ€™identifiant entÃªte existe dans la table Â« ligne ticket Â» et dont l'identifiant article existe dans la table article.*
+* Notre périmètre d'analyse est le suivant : **Tous les clients qui ont effectué au moins 1 achat d'un article existant.**Ce périmètre d'analyse se traduit au niveau des données de la manière suivante : *A partir de la table "client", nous effectuons des jointures internes, grace à la fonction "inner join" avec l'ensemble des autres tables du schéma (cf. schema de donnée)*
 
-A chaque jointure entre 2 tables, nous comptons le nombre de client. Ce contrÃ´le permet de nous assurer de la cohÃ©rences des donnÃ©es entre les tables ainsi que de constater le nombre de client qui sortent de notre scope d'analyse.
-A cÃ´tÃ© de cela, nous faisons un contrÃ´le dâ€™intÃ©gritÃ© des donnÃ©es. 
+* Notre scope de donnée est donc le suivant : **Tous les identifiants clients qui existent dans la table "entète ticket" et dont l'identifiant entète existe dans la table « ligne ticket » et dont l'identifiant article existe dans la table article.**
 
-Nous vous prÃ©sentons ci-dessous lâ€™ensemble des rÃ¨gle de gestion que nous avons appliquÃ© pour dÃ©finir notre pÃ©rimÃ¨tre d'analyse
+A chaque jointure entre 2 tables, nous comptons le nombre de client. Ce contrôle permet de nous assurer de la cohérences des données entre les tables ainsi que de constater le nombre de client qui sortent de notre scope d'analyse.
+A côté de cela, nous faisons un contrôle d'intégrité des données. 
+
+Nous vous présentons dans la suite l'ensemble des règles de gestion que nous avons appliquées pour définir notre périmètre d'analyse.
 
 
-## Regles de gestions
+## III - Regles de gestions
 
 Nous decidons d'effectuer plusieurs operations sur les tables afin d'avoir un ensemble de donnees coherentes. Pour cela nous allons suivre plusieurs etapes :
 
 * Nous eliminons les doublons dans la table "Lignes Ticket":
-**Identification des doublons:**
+
+&nbsp;&nbsp;&nbsp;&nbsp;*Taille avant traitement :*
+```{r dataset size 1}
+nrow(lignes)
+```
+
+
+&nbsp;&nbsp;&nbsp;&nbsp;*Identification des doublons:*
 ```{r doublons - identification}
 lignes<-lignes[,.(nb=.N), by=c("IDTICKET","NUMLIGNETICKET","IDARTICLE","QUANTITE", "MONTANTREMISE", "TOTAL", "MARGESORTIE")]
 ```
 
-**Dedoublonnage:**
+&nbsp;&nbsp;&nbsp;&nbsp;*Dedoublonnage:*
 ```{r doublons - suppression}
 lignes<-lignes%>% select(-nb)
 ```
 
-Nous avons identifie 130 doublons.
+&nbsp;&nbsp;&nbsp;&nbsp;*Taille après traitement :*
+```{r dataset size 2}
+nrow(lignes)
+```
+&nbsp;&nbsp;&nbsp;&nbsp;Nous avons identifie 130 doublons.
 
 
-* jointure interne entre la table client et la table magasin 
+* Jointure interne entre la table **client** et la table **magasin** :
+
+&nbsp;&nbsp;&nbsp;&nbsp;*Nombre de clients avant traitement :*
+```{r dataset size 3}
+nrow(clients)
+```
 
 ```{r clients ~ magasin}
-#nb de clienta
 PERIMETRE<-merge(clients,magasins,by.x="MAGASIN", by.y="CODESOCIETE",all=FALSE)
 #845 876 clients
-#afficher le nombre de client
+```
+
+&nbsp;&nbsp;&nbsp;&nbsp;*Nombre de clients après traitement :*
+```{r dataset size 4}
 PERIMETRE[,.(nb_clients=length(unique(IDCLIENT)))]
 ```
 
-* jointure interne entre la table client-magasins et entete
+
+* Jointure interne entre la table **client-magasins** et **entete**
+
 ```{r clients/magasins ~ entete}
 #845 876 clients
 PERIMETRE<-merge(PERIMETRE, entetes, by="IDCLIENT", all=FALSE)
 #nombre de client : 770 163
 #75 713 client de la base n'ont pas effectue d'achat
-#afficher le nombre de client
+```
+
+&nbsp;&nbsp;&nbsp;&nbsp;*Nombre de clients après traitement :*
+```{r dataset size 5}
 PERIMETRE[,.(nb_clients=length(unique(IDCLIENT)))]
 ```
 
-* jointure interne entre la table client-magasins-entete et ligne ticket
+* Jointure interne entre la table **client-magasins-entete** et **ligne ticket**
 ```{r clients/magasins/entete ~ ligne_ticket}
 PERIMETRE<-merge(PERIMETRE,lignes,by="IDTICKET", all=FALSE)
-#afficher nombre de client :770 163
-PERIMETRE[,.(nb_clients=length(unique(IDCLIENT)))]
-#afficher nombre d'entete ticket : 6 713 822
+# nombre de client :770 163
+# nombre d'entete ticket : 6 713 822
 #351 entetes tickets n'ont pas de lignes ticket
+PERIMETRE[,.(nb_clients=length(unique(IDCLIENT)))]
+```
+
+
+&nbsp;&nbsp;&nbsp;&nbsp;*Nombre de clients après traitement :*
+```{r dataset size 6}
 PERIMETRE[,.(nb_clients=length(unique(IDTICKET)))]
 ```
 
-* Analyse table article avec la table ligne ticket : jointure externe
+
+* Analyse table article avec la table **ligne ticket** : jointure externe
 ```{r analyse articles}
 article_ligne<-merge(lignes,articles,by.x="IDARTICLE", by.y="CODEARTICLE",all.x=TRUE)
 ```
-*Analyse pour savoir si tous les articles de la table lignes existe bien dans la table article :*
+&nbsp;&nbsp;&nbsp;&nbsp;*Analyse pour savoir si tous les articles de la table lignes existent bien dans la table article :*
 ```{r analyse articles null}
 article_ligne[is.na(CODEUNIVERS)==TRUE,.(nb=.N), by=IDARTICLE]
 ```
-*Nous constatons que l'IDARTICLE "395460" n'existe pas dans la table article et qu'il y a 31 lignes ticket lie a ce dernier, il faut donc creer cette article en le rajoutant dans la table article :*
+&nbsp;&nbsp;&nbsp;&nbsp;*Nous constatons que l'IDARTICLE "395460" n'existe pas dans la table article et qu'il y a 31 lignes ticket lie a ce dernier, il faut donc creer cette article en le rajoutant dans la table article :*
 ```{r analyse articles creation}
 newarticle <- data.table(CODEARTICLE="395460",CODEUNIVERS="unknown",CODEFAMILLE="unknown", CODESOUSFAMILLE="unknown")
 articles<- rbind(articles,newarticle)
 ```
-*Jointure interne entre la table client-magasins-entete-ligne et article (avec l'ajout du nouvel article)*
+&nbsp;&nbsp;&nbsp;&nbsp;*Jointure interne entre la table **client-magasins-entete-ligne** et **article** (avec l'ajout du nouvel article)* (Pour cette étape nous avons effectuer le traitement en dehors du rapport RMarkdown car le traitement est trop volumneux, nous avons tout de même fournis le code commenté ci dessous.)
 ```{r clients/magasins/entete/lignes ~ articles}
 #PERIMETRE<-merge(PERIMETRE,articles,by.x="IDARTICLE", by.y="CODEARTICLE", all=FALSE)
-#afficher le nombre de client :770 163
+# le nombre de client :770 163
 #PERIMETRE[,.(nb_clients=length(unique(IDCLIENT)))]
-#afficher nombre d'entete ticket : 6 713 822
+# nombre d'entete ticket : 6 713 822
 #PERIMETRE[,.(nb_clients=length(unique(IDTICKET)))]
+```
+
+&nbsp;&nbsp;&nbsp;&nbsp;*Nombre de clients après traitement :*
+```{r dataset size 7}
 table_finale[,.(nb_client=nb_client)]
+```
+
+&nbsp;&nbsp;&nbsp;&nbsp;*Nombre d'entete après traitement :*
+```{r dataset size 8}
 table_finale[,.(nb_entete_ticket=nb_entete_ticket)]
 ```
+
+
