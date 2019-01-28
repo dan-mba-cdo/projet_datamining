@@ -15,7 +15,7 @@ library(assertthat)
 library(xlsx)
 library(questionr)
 
-source("Parametres_NR.R")
+source("Parametres.R")
 
 
 #Statistiques descriptives

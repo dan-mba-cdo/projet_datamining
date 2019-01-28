@@ -13,8 +13,7 @@
 # plutôt que les fichiers d'entrée volumineux du projet. Cela permet de travailler sur des machines moins véloces.
 # Mettre la valeur à TRUE lorsque l'on désire travailler avec des fichiers plus petits.
 # Ne pas oublier de mettre cette valeur à FALSE lorsque le projet est finalisé.
-utilise_des_extraits_de_fichier <- TRUE
-
+utilise_des_extraits_de_fichier <- FALSE
 # Boolean qui modifie le comportement de l'application si on l'exécute depuis R-Markdown ou depuis le fichier "Projet.R".
 execution_avec_RMarkdown <- TRUE
 
@@ -41,7 +40,7 @@ chemin_dossier_donnees_Nicolas <- "/Users/nrobin/Documents/GitHub/projet_datamin
 #   à son environnement de travail.
 #   Dans ce cas cela signifie qu'on lance l'exécution du programme à partir du fichier "Projet.Rmd"
 if (execution_avec_RMarkdown == TRUE) {
-  chemin_dossier_donnees_par_default <- chemin_dossier_donnees_Juliette
+  chemin_dossier_donnees_par_default <- chemin_dossier_donnees_Dan
 }else{
   # Le dossier sera sélectionné par l'utilisateur lors de l'exécution du programme lors
   # de l'appel de la fonction cheminDossierFichiersDonnees()

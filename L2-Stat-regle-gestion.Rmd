@@ -1,5 +1,5 @@
 ---
-title: "L2-Statistiques et règles de gestion"
+title: "L2-Statistiques et regles de gestion"
 author: "Thomas FONTAINE, Dan GOLDMAN, Juliette LEMAINS, Nicolas ROBIN"
 date: "27 janvier 2019"
 output: 
@@ -20,11 +20,11 @@ library(xlsx)
 library(questionr)
 library(showtext)
 
-source("Statistiques_NR.R")
+source("Statistiques.R")
 ```
 # Projet Transverse - Livrable 2
 
-Pour le projet sur lequel nous devons travailler,  nous avons fait le choix de considérer que l'enseigne est une chaîne de magasins de jardinerie. 
+Pour le projet sur lequel nous devons travailler,  nous avons fait le choix de considerer que l'enseigne est une chaene de magasins de jardinerie. 
 
 <center>
 ![](Botanica.png)
@@ -32,18 +32,18 @@ Pour le projet sur lequel nous devons travailler,  nous avons fait le choix de c
 
 ---
 
-# I - Statistiques et règles de gestion
+# I - Statistiques et regles de gestion
 
 ## I.1 - Livrable attendu
 
-* Fournir les statistiques des différentes tables
-* Faire une proposition éventuelle de règles de gestion et de correction des données manquantes et aberrantes.
-* Faire une proposition des indicateurs clefs, aux fins de servir la problématique et les règles de construction des indicateurs.
+* Fournir les statistiques des differentes tables
+* Faire une proposition eventuelle de regles de gestion et de correction des donnees manquantes et aberrantes.
+* Faire une proposition des indicateurs clefs, aux fins de servir la problematique et les regles de construction des indicateurs.
 
 
 ## I.2 - Architecture
 
-L'architecture des tables est réparties en 5 tables distinctes :`
+L'architecture des tables est reparties en 5 tables distinctes :`
 
 * Articles
 * Client
@@ -53,9 +53,9 @@ L'architecture des tables est réparties en 5 tables distinctes :`
 
 ![](structure.png)
 
-Nous avons dans un premier temps procédé à l'analyse statistique des données pour chacune des tables.
+Nous avons dans un premier temps procede e l'analyse statistique des donnees pour chacune des tables.
 
-## I.3 - Statistiques des différentes tables
+## I.3 - Statistiques des differentes tables
 
 ## I.3.1 - Table Articles {.tabset}
 
@@ -64,7 +64,7 @@ Nous avons dans un premier temps procédé à l'analyse statistique des données pou
 resume_structure(articles)
 ```
 
-### Tris à plat
+### Tris e plat
 ```{r articles_tris_a_plat, echo=FALSE}
 tris_a_plat(articles)
 ```
@@ -88,7 +88,7 @@ statistiques(articles)
 resume_structure(magasins)
 ```
 
-### Tris à plat
+### Tris e plat
 ```{r magasins_tris_a_plat, echo=FALSE}
 tris_a_plat(magasins)
 ```
@@ -112,7 +112,7 @@ statistiques(magasins)
 resume_structure(clients)
 ```
 
-### Tris à plat
+### Tris e plat
 ```{r clients_tris_a_plat, echo=FALSE}
 tris_a_plat(clients)
 ```
@@ -129,14 +129,14 @@ statistiques(clients)
 
 ---
 
-## I.3.4 - Table Entêtes {.tabset}
+## I.3.4 - Table Entetes {.tabset}
 
 ### Structure
 ```{r entetes_structure, echo=FALSE}
 resume_structure(entetes)
 ```
 
-### Tris à plat
+### Tris e plat
 ```{r entetes_tris_a_plat, echo=FALSE}
 tris_a_plat(entetes)
 ```
@@ -158,7 +158,7 @@ statistiques(entetes)
 resume_structure(lignes)
 ```
 
-### Tris à plat
+### Tris e plat
 ```{r lignes_tris_a_plat, echo=FALSE}
 tris_a_plat(lignes)
 ```
@@ -176,17 +176,17 @@ statistiques(lignes)
 ---
 &nbsp;&nbsp
 
-## II - Perimetre d'analyse - Scope des données
-Les données se trouvent dans différentes tables, il est donc important de connaitre leur relation et d'en déduire leur cardinalité. L'objectif de ce travail d'analyse est de faire émerger un périmètre de données cohérent.
+## II - Perimetre d'analyse - Scope des donnees
+Les donnees se trouvent dans differentes tables, il est donc important de connaitre leur relation et d'en deduire leur cardinalite. L'objectif de ce travail d'analyse est de faire emerger un perimetre de donnees coherent.
 
-* Notre périmètre d'analyse est le suivant : **Tous les clients qui ont effectué au moins 1 achat d'un article existant.**Ce périmètre d'analyse se traduit au niveau des données de la manière suivante : *A partir de la table "client", nous effectuons des jointures internes, grace à la fonction "inner join" avec l'ensemble des autres tables du schéma (cf. schema de donnée)*
+* Notre perimetre d'analyse est le suivant : **Tous les clients qui ont effectue au moins 1 achat d'un article existant.**Ce perimetre d'analyse se traduit au niveau des donnees de la maniere suivante : *A partir de la table "client", nous effectuons des jointures internes, grace e la fonction "inner join" avec l'ensemble des autres tables du schema (cf. schema de donnee)*
 
-* Notre scope de donnée est donc le suivant : **Tous les identifiants clients qui existent dans la table "entète ticket" et dont l'identifiant entète existe dans la table « ligne ticket » et dont l'identifiant article existe dans la table article.**
+* Notre scope de donnee est donc le suivant : **Tous les identifiants clients qui existent dans la table "entete ticket" et dont l'identifiant entete existe dans la table e ligne ticket e et dont l'identifiant article existe dans la table article.**
 
-A chaque jointure entre 2 tables, nous comptons le nombre de client. Ce contrôle permet de nous assurer de la cohérences des données entre les tables ainsi que de constater le nombre de client qui sortent de notre scope d'analyse.
-A côté de cela, nous faisons un contrôle d'intégrité des données. 
+A chaque jointure entre 2 tables, nous comptons le nombre de client. Ce contrele permet de nous assurer de la coherences des donnees entre les tables ainsi que de constater le nombre de client qui sortent de notre scope d'analyse.
+A cete de cela, nous faisons un contrele d'integrite des donnees. 
 
-Nous vous présentons dans la suite l'ensemble des règles de gestion que nous avons appliquées pour définir notre périmètre d'analyse.
+Nous vous presentons dans la suite l'ensemble des regles de gestion que nous avons appliquees pour definir notre perimetre d'analyse.
 
 
 ## III - Regles de gestions
@@ -211,7 +211,7 @@ lignes<-lignes[,.(nb=.N), by=c("IDTICKET","NUMLIGNETICKET","IDARTICLE","QUANTITE
 lignes<-lignes%>% select(-nb)
 ```
 
-&nbsp;&nbsp;&nbsp;&nbsp;*Taille après traitement :*
+&nbsp;&nbsp;&nbsp;&nbsp;*Taille apres traitement :*
 ```{r dataset size 2}
 nrow(lignes)
 ```
@@ -230,7 +230,7 @@ PERIMETRE<-merge(clients,magasins,by.x="MAGASIN", by.y="CODESOCIETE",all=FALSE)
 #845 876 clients
 ```
 
-&nbsp;&nbsp;&nbsp;&nbsp;*Nombre de clients après traitement :*
+&nbsp;&nbsp;&nbsp;&nbsp;*Nombre de clients apres traitement :*
 ```{r dataset size 4}
 PERIMETRE[,.(nb_clients=length(unique(IDCLIENT)))]
 ```
@@ -245,7 +245,7 @@ PERIMETRE<-merge(PERIMETRE, entetes, by="IDCLIENT", all=FALSE)
 #75 713 client de la base n'ont pas effectue d'achat
 ```
 
-&nbsp;&nbsp;&nbsp;&nbsp;*Nombre de clients après traitement :*
+&nbsp;&nbsp;&nbsp;&nbsp;*Nombre de clients apres traitement :*
 ```{r dataset size 5}
 PERIMETRE[,.(nb_clients=length(unique(IDCLIENT)))]
 ```
@@ -260,7 +260,7 @@ PERIMETRE[,.(nb_clients=length(unique(IDCLIENT)))]
 ```
 
 
-&nbsp;&nbsp;&nbsp;&nbsp;*Nombre de clients après traitement :*
+&nbsp;&nbsp;&nbsp;&nbsp;*Nombre de clients apres traitement :*
 ```{r dataset size 6}
 PERIMETRE[,.(nb_clients=length(unique(IDTICKET)))]
 ```
@@ -279,7 +279,7 @@ article_ligne[is.na(CODEUNIVERS)==TRUE,.(nb=.N), by=IDARTICLE]
 newarticle <- data.table(CODEARTICLE="395460",CODEUNIVERS="unknown",CODEFAMILLE="unknown", CODESOUSFAMILLE="unknown")
 articles<- rbind(articles,newarticle)
 ```
-&nbsp;&nbsp;&nbsp;&nbsp;*Jointure interne entre la table **client-magasins-entete-ligne** et **article** (avec l'ajout du nouvel article)* (Pour cette étape nous avons effectuer le traitement en dehors du rapport RMarkdown car le traitement est trop volumneux, nous avons tout de même fournis le code commenté ci dessous.)
+&nbsp;&nbsp;&nbsp;&nbsp;*Jointure interne entre la table **client-magasins-entete-ligne** et **article** (avec l'ajout du nouvel article)* (Pour cette etape nous avons effectuer le traitement en dehors du rapport RMarkdown car le traitement est trop volumneux, nous avons tout de meme fournis le code commente ci dessous.)
 ```{r clients/magasins/entete/lignes ~ articles}
 #PERIMETRE<-merge(PERIMETRE,articles,by.x="IDARTICLE", by.y="CODEARTICLE", all=FALSE)
 # le nombre de client :770 163
@@ -288,12 +288,12 @@ articles<- rbind(articles,newarticle)
 #PERIMETRE[,.(nb_clients=length(unique(IDTICKET)))]
 ```
 
-&nbsp;&nbsp;&nbsp;&nbsp;*Nombre de clients après traitement :*
+&nbsp;&nbsp;&nbsp;&nbsp;*Nombre de clients apres traitement :*
 ```{r dataset size 7}
 table_finale[,.(nb_client=nb_client)]
 ```
 
-&nbsp;&nbsp;&nbsp;&nbsp;*Nombre d'entete après traitement :*
+&nbsp;&nbsp;&nbsp;&nbsp;*Nombre d'entete apres traitement :*
 ```{r dataset size 8}
 table_finale[,.(nb_entete_ticket=nb_entete_ticket)]
 ```
