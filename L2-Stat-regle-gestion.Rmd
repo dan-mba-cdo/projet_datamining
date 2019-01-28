@@ -43,10 +43,10 @@ Les données se trouvent dans différentes tables, il est donc important de conn
 Notre périmètre d’analyse est le suivant : Tous les clients qui ont effectué au moins 1 achat d’un article existant.
 Ce périmètre d’analyse se traduit au niveau des données de la manière suivante :
 A partir de la table "client", nous effectuons des jointures internes, nommée "inner join" avec l’ensemble des autres tables du schéma (cf. schema de donnée)
-Notre scope de donnée est le suivant : tous les identifiants clients qui existent dans la table "entête ticket" et dont l’identifiant entête existe dans la table « ligne ticket » et dont l'identifiant article existe dans la table article.
+Notre scope de donnée est donc le suivant : tous les identifiants clients qui existent dans la table "entête ticket" et dont l’identifiant entête existe dans la table « ligne ticket » et dont l'identifiant article existe dans la table article.
 A chaque jointure entre 2 tables, nous comptons le nombre de client. Ce contrôle permet de nous assurer de la cohérences des données entre les tables ainsi que de constater le nombre de client qui sortent de notre scope d'analyse.
 A côté de cela, nous faisons un contrôle d’intégrité des données. 
-Nous vous présentons ci-dessous l’ensemble des règle de gestion que nous avons appliqué pour définir notre périmètre des données
+Nous vous présentons ci-dessous l’ensemble des règle de gestion que nous avons appliqué pour définir notre périmètre d'analyse
 
 
 ## Regles de gestions
