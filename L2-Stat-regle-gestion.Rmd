@@ -1,7 +1,7 @@
 ---
 title: "L2-Statistiques et regles de gestion"
 author: "Thomas FONTAINE, Dan GOLDMAN, Juliette LEMAINS, Nicolas ROBIN"
-date: "27 janvier 2019"
+date: "30 janvier 2019"
 output: 
   html_document: default
 ---
@@ -22,7 +22,8 @@ library(showtext)
 
 source("Statistiques.R")
 ```
-# Projet Transverse - Livrable 2
+# Projet Transverse - Livrable 2 - Ligne de test des caractères accentués : àéèëêEÉÊiïÎôöùüœπß$£€...
+
 
 Pour le projet sur lequel nous devons travailler,  nous avons fait le choix de considerer que l'enseigne est une chaine de magasins de jardinerie. 
 
@@ -71,7 +72,7 @@ tris_a_plat(articles)
 
 ### Statistiques de base
 ```{r articles_stat_de_base, echo=FALSE}
-statistiques_de_base(articles)
+statistiques_de_base(articles, options_affichage_stats_articles)
 ```
 
 ### Sortie Console
@@ -95,7 +96,7 @@ tris_a_plat(magasins)
 
 ### Statistiques de base
 ```{r magasins_stat_de_base, echo=FALSE}
-statistiques_de_base(magasins)
+statistiques_de_base(magasins, options_affichage_stats_magasins)
 ```
 
 ### Sortie Console
@@ -119,7 +120,7 @@ tris_a_plat(clients)
 
 ### Statistiques de base
 ```{r clients_stat_de_base, echo=FALSE}
-statistiques_de_base(clients)
+statistiques_de_base(clients, options_affichage_stats_clients)
 ```
 
 ### Sortie Console
@@ -143,7 +144,7 @@ tris_a_plat(entetes)
 
 ### Statistiques de base
 ```{r entetes_stat_de_base, echo=FALSE}
-statistiques_de_base(entetes)
+statistiques_de_base(entetes, options_affichage_stats_entetes)
 ```
 
 ### Sortie Console
@@ -165,7 +166,7 @@ tris_a_plat(lignes)
 
 ### Statistiques de base
 ```{r lignes_stat_de_base, echo=FALSE}
-statistiques_de_base(lignes)
+statistiques_de_base(lignes, options_affichage_stats_lignes)
 ```
 
 ### Sortie Console
