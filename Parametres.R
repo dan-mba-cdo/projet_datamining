@@ -9,11 +9,14 @@
 #
 # ---------------------------------------------------------------------------------------
 
+# Ligne de test pour la compatibilité des caractères accentués dans un environnement différent : àéèëêEÉÊiïÎôöùüœπß$£€...
+
 # La variable booléene "utilise_des_extraits_de_fichier" permet de sélectionner des extraits de fichiers
 # plutôt que les fichiers d'entrée volumineux du projet. Cela permet de travailler sur des machines moins véloces.
 # Mettre la valeur à TRUE lorsque l'on désire travailler avec des fichiers plus petits.
 # Ne pas oublier de mettre cette valeur à FALSE lorsque le projet est finalisé.
 utilise_des_extraits_de_fichier <- FALSE
+
 # Boolean qui modifie le comportement de l'application si on l'exécute depuis R-Markdown ou depuis le fichier "Projet.R".
 execution_avec_RMarkdown <- TRUE
 
@@ -21,7 +24,7 @@ execution_avec_RMarkdown <- TRUE
 ANNEE_EN_COURS <- 2018
 
 # Définition du nombre maximal pour l'affichage des modalités.
-NB_MODALITES_MAX = 40
+NB_MODALITES_MAX = 20
 
 # Definition de la precision quand un arrondi est effectué.
 PRECISION = 3
@@ -40,7 +43,7 @@ chemin_dossier_donnees_Nicolas <- "/Users/nrobin/Documents/GitHub/projet_datamin
 #   à son environnement de travail.
 #   Dans ce cas cela signifie qu'on lance l'exécution du programme à partir du fichier "Projet.Rmd"
 if (execution_avec_RMarkdown == TRUE) {
-  chemin_dossier_donnees_par_default <- chemin_dossier_donnees_Dan
+  chemin_dossier_donnees_par_default <- chemin_dossier_donnees_Nicolas
 }else{
   # Le dossier sera sélectionné par l'utilisateur lors de l'exécution du programme lors
   # de l'appel de la fonction cheminDossierFichiersDonnees()
@@ -52,7 +55,7 @@ if (execution_avec_RMarkdown == TRUE) {
 # Elles sont automatiquement sélectionnées et installées dans le cas où elles sont manquantes.
 chargementDesLibraries <- function() {
   
-  libraries_utilies <- c('assertthat', 'data.table', 'dplyr', 'DT', 'dygraphs','flextable', 'formattable', 'ggplot2', 'grid', 'gridExtra', 'knitr', 'kableExtra', 'pander', 'plotly', 'rAmCharts', 'stringr', 'svDialogs', 'tidyverse', 'tinytex','bit64')
+  libraries_utilies <- c('assertthat', 'data.table', 'dplyr', 'DT', 'dygraphs','flextable', 'formattable', 'ggplot2', 'grid', 'gridExtra', 'knitr', 'kableExtra', 'pander', 'plotly', 'questionr', 'rAmCharts', 'stringr', 'svDialogs', 'tidyverse', 'tinytex','bit64')
   
   for (package in libraries_utilies) {
     if (!require(package, character.only=T, quietly=T)) {
@@ -283,5 +286,24 @@ clients <- chargementTableClients(chemin_dossier_donnees_selectionne)
 entetes <- chargementTableEntetes(chemin_dossier_donnees_selectionne)
 lignes <- chargementTableLignes(chemin_dossier_donnees_selectionne)
 insee <- chargementTableInsee(chemin_dossier_donnees_selectionne)
+
+# Table réduite.
 table_finale<-data.table(nb_client=770163, nb_entete_ticket=6713822)
-  
+
+# Data Frames qui indiquent la structure de chacune des tables à analyser.
+# On taggue chaque colonne, avec l'étiquette :
+# 1) "I" --> si la valeur est un identifiant.
+# 2) "N" --> si la valeur est nominale.
+# 3) "C" --> si la valeur est continue.
+table_articles_column_nature <- data.frame("CODEARTICLE"="I", "CODEUNIVERS"="N", "CODEFAMILLE"="N", "CODESOUSFAMILLE"="N")
+table_clients_column_nature <- data.frame("IDCLIENT"="I", "CIVILITE"="N", "DATENAISSANCE"="N", "MAGASIN"="N", "DATEDEBUTADHESION"="N", "DATEREADHESION"="N", "DATEFINADHESION"="N", "VIP"="N", "CODEINSEE"="N", "PAYS"="N")
+table_entetes_column_nature <- data.frame("IDTICKET"="I", "TIC_DATE"="N", "MAG_CODE"="N", "IDCLIENT"="I", "TIC_TOTALTTC"="C")
+table_lignes_column_nature <- data.frame("IDTICKET"="I", "NUMLIGNETICKET"="N", "IDARTICLE"="I", "QUANTITE"="C", "MONTANTREMISE"="C", "TOTAL"="C", "MARGESORTIE"="C")
+table_magasins_column_nature <- data.frame("CODESOCIETE"="I", "VILLE"="N", "LIBELLEDEPARTEMENT"="N", "LIBELLEREGIONCOMMERCIALE"="N")
+
+# C'est ici que l'on choisit d'afficher telle ou telle statistique pour chacune des tables sur lesquelles on travaille.
+options_affichage_stats_articles <- list(column_name=TRUE, min=TRUE, min1=TRUE, max=TRUE, max1=TRUE, mean=TRUE, median=TRUE, std=TRUE, cv=TRUE)
+options_affichage_stats_clients <- list(column_name=TRUE, min=TRUE, min1=TRUE, max=TRUE, max1=TRUE, mean=TRUE, median=TRUE, std=TRUE, cv=TRUE)
+options_affichage_stats_entetes <- list(column_name=TRUE, min=TRUE, min1=TRUE, max=TRUE, max1=TRUE, mean=TRUE, median=TRUE, std=TRUE, cv=TRUE)
+options_affichage_stats_lignes <- list(column_name=TRUE, min=TRUE, min1=TRUE, max=TRUE, max1=TRUE, mean=TRUE, median=TRUE, std=TRUE, cv=TRUE)
+options_affichage_stats_magasins <- list(column_name=TRUE, min=TRUE, min1=TRUE, max=TRUE, max1=TRUE, mean=TRUE, median=TRUE, std=TRUE, cv=TRUE)
