@@ -23,7 +23,7 @@ library(showtext)
 source("Statistiques.R")
 ```
 # Projet Transverse - Livrable 2 - Ligne de test des caractères accentués : àéèëêEÉÊiïÎôöùüœπß$£€...
-
+#Juliette : àéèëêEÉÊiïÎôöùüœπß$£€
 
 Pour le projet sur lequel nous devons travailler,  nous avons fait le choix de considerer que l'enseigne est une chaine de magasins de jardinerie. 
 
