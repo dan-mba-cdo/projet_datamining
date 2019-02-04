@@ -11,7 +11,7 @@
 
 # Ligne de test pour la compatibilité des caractères accentués dans un environnement différent : àéèëêEÉÊiïÎôöùüœπß$£€...
 #Juliette : àéèëêEÉÊiïÎôöùüœπß$£€
-
+#Dan : àéèëêEÉÊiïÎôöùüœπß$£€
 
 # La variable booléene "utilise_des_extraits_de_fichier" permet de sélectionner des extraits de fichiers
 # plutôt que les fichiers d'entrée volumineux du projet. Cela permet de travailler sur des machines moins véloces.
