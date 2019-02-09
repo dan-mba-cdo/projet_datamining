@@ -20,7 +20,7 @@
 utilise_des_extraits_de_fichier <- FALSE
 
 # Boolean qui modifie le comportement de l'application si on l'exécute depuis R-Markdown ou depuis le fichier "Projet.R".
-execution_avec_RMarkdown <- TRUE
+execution_avec_RMarkdown <- FALSE
 
 # Declaration de la variable pour l'annee en cours 
 ANNEE_EN_COURS <- 2018
@@ -57,7 +57,7 @@ if (execution_avec_RMarkdown == TRUE) {
 # Elles sont automatiquement sélectionnées et installées dans le cas où elles sont manquantes.
 chargementDesLibraries <- function() {
   
-  libraries_utilies <- c('assertthat', 'data.table', 'dplyr', 'DT', 'dygraphs','flextable', 'formattable', 'ggplot2', 'grid', 'gridExtra', 'knitr', 'kableExtra', 'pander', 'plotly', 'questionr', 'rAmCharts', 'stringr', 'svDialogs', 'tidyverse', 'tinytex','bit64')
+  libraries_utilies <- c('assertthat', 'data.table', 'dplyr', 'DT', 'dygraphs','flextable', 'formattable', 'ggplot2', 'grid', 'gridExtra', 'knitr', 'kableExtra', 'pander', 'plotly', 'questionr', 'rAmCharts', 'stringr', 'svDialogs', 'tidyverse', 'tinytex','bit64','rfm','lubridate')
   
   for (package in libraries_utilies) {
     if (!require(package, character.only=T, quietly=T)) {
