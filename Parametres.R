@@ -302,6 +302,8 @@ table_clients_column_nature <- data.frame("IDCLIENT"="I", "CIVILITE"="N", "DATEN
 table_entetes_column_nature <- data.frame("IDTICKET"="I", "TIC_DATE"="N", "MAG_CODE"="N", "IDCLIENT"="I", "TIC_TOTALTTC"="C")
 table_lignes_column_nature <- data.frame("IDTICKET"="I", "NUMLIGNETICKET"="N", "IDARTICLE"="I", "QUANTITE"="C", "MONTANTREMISE"="C", "TOTAL"="C", "MARGESORTIE"="C")
 table_magasins_column_nature <- data.frame("CODESOCIETE"="I", "VILLE"="N", "LIBELLEDEPARTEMENT"="N", "LIBELLEREGIONCOMMERCIALE"="N")
+table_datamining_client_column_nature <- data.frame("IDCLIENT"="I", "COMP_MARGE"="C", "COMP_TOTAL"="C", "COMP_NB_ACTE_ACHAT"="C", "CIVILITE_r"="N", "age"="C","CAT_CLIENT"="N","BORNE_DISTANCE"="N","rfm_score"="C","CODEUNIVERS"="N")
+
 
 # C'est ici que l'on choisit d'afficher telle ou telle statistique pour chacune des tables sur lesquelles on travaille.
 options_affichage_stats_articles <- list(column_name=TRUE, min=TRUE, min1=TRUE, max=TRUE, max1=TRUE, mean=TRUE, median=TRUE, std=TRUE, cv=TRUE)
@@ -309,3 +311,4 @@ options_affichage_stats_clients <- list(column_name=TRUE, min=TRUE, min1=TRUE, m
 options_affichage_stats_entetes <- list(column_name=TRUE, min=TRUE, min1=TRUE, max=TRUE, max1=TRUE, mean=TRUE, median=TRUE, std=TRUE, cv=TRUE)
 options_affichage_stats_lignes <- list(column_name=TRUE, min=TRUE, min1=TRUE, max=TRUE, max1=TRUE, mean=TRUE, median=TRUE, std=TRUE, cv=TRUE)
 options_affichage_stats_magasins <- list(column_name=TRUE, min=TRUE, min1=TRUE, max=TRUE, max1=TRUE, mean=TRUE, median=TRUE, std=TRUE, cv=TRUE)
+options_affichage_stats_datamining_client <- list(column_name=TRUE, min=TRUE, min1=TRUE, max=TRUE, max1=TRUE, mean=TRUE, median=TRUE, std=TRUE, cv=TRUE)

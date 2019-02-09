@@ -134,6 +134,8 @@ get_column_nature_df <- function(table_name) {
     valeur_retournee <- table_lignes_column_nature
   }  else if (table_name == "magasins") {
     valeur_retournee <- table_magasins_column_nature
+  } else if (table_name == "datamining_client") {
+    valeur_retournee <- table_magasins_column_nature
   } else {
     cat("ERREUR: le nom de la table n'a pas été trouvé.")
     valeur_retournee <- NULL
