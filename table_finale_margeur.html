@@ -478,17 +478,6 @@ age_group
 </tr>
 <tr>
 <td style="text-align:left;">
-1 - plus de 65 ans
-</td>
-<td style="text-align:right;">
-76852
-</td>
-<td style="text-align:right;">
-11.3
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
 2 - de 26 a 40 ans
 </td>
 <td style="text-align:right;">
@@ -507,6 +496,17 @@ age_group
 </td>
 <td style="text-align:right;">
 30.6
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+4 - plus de 65 ans
+</td>
+<td style="text-align:right;">
+76852
+</td>
+<td style="text-align:right;">
+11.3
 </td>
 </tr>
 <tr>
@@ -611,7 +611,7 @@ BORNE_DISTANCE
 </tr>
 <tr>
 <td style="text-align:left;">
-0 Ã  5km
+1- moins de 5km
 </td>
 <td style="text-align:right;">
 240369
@@ -622,29 +622,7 @@ BORNE_DISTANCE
 </tr>
 <tr>
 <td style="text-align:left;">
-10 Ã  20km
-</td>
-<td style="text-align:right;">
-127418
-</td>
-<td style="text-align:right;">
-18.7
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-20 Ã  50km
-</td>
-<td style="text-align:right;">
-74877
-</td>
-<td style="text-align:right;">
-11
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-5 Ã  10km
+2 - de 5 a 10km
 </td>
 <td style="text-align:right;">
 189194
@@ -655,7 +633,29 @@ BORNE_DISTANCE
 </tr>
 <tr>
 <td style="text-align:left;">
-plus de 50km
+3 - de 10 a 20km
+</td>
+<td style="text-align:right;">
+127418
+</td>
+<td style="text-align:right;">
+18.7
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+4 - de 20 Ã  50km
+</td>
+<td style="text-align:right;">
+74877
+</td>
+<td style="text-align:right;">
+11
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+5 - plus de 50km
 </td>
 <td style="text-align:right;">
 21964
@@ -933,9 +933,9 @@ RFM_SCORE
 ## Frequence de modalites : 
 ##                          n    %
 ## 1 - moins de 25 ans  12520  1.8
-## 1 - plus de 65 ans   76852 11.3
 ## 2 - de 26 a 40 ans   99250 14.6
 ## 3 - de 41 a 65 ans  208707 30.6
+## 4 - plus de 65 ans   76852 11.3
 ## NA                  284412 41.7
 ## Taux de valeurs manquantes : 41.71848 % 
 ## 
@@ -957,13 +957,13 @@ RFM_SCORE
 ## Type : character 
 ## Valeurs unique : 6 
 ## Frequence de modalites : 
-##                   n    %
-## 0 Ã  5km     240369 35.3
-## 10 Ã  20km   127418 18.7
-## 20 Ã  50km    74877 11.0
-## 5 Ã  10km    189194 27.8
-## plus de 50km  21964  3.2
-## NA            27919  4.1
+##                        n    %
+## 1- moins de 5km   240369 35.3
+## 2 - de 5 a 10km   189194 27.8
+## 3 - de 10 a 20km  127418 18.7
+## 4 - de 20 Ã  50km  74877 11.0
+## 5 - plus de 50km   21964  3.2
+## NA                 27919  4.1
 ## Taux de valeurs manquantes : 4.09525 % 
 ## 
 ## ------------ TOTAL_CA_TTC : ----------- 

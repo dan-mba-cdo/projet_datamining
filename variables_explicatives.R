@@ -234,7 +234,7 @@ distance_Client_Magasin <- function(table_insee, table_magasins, table_clients) 
   # A la place j'ai utilisé cette stratégie.
   # Cela fonctionne, mais c'est beaucoup moins élégant !
   jointureGeoMagasinsClients[(DISTANCE_CLIENT_magasins > 50), BORNE_DISTANCE:="5 - plus de 50km"]
-  jointureGeoMagasinsClients[(DISTANCE_CLIENT_magasins <= 50), BORNE_DISTANCE:="4 - de 20 à 50km"]
+  jointureGeoMagasinsClients[(DISTANCE_CLIENT_magasins <= 50), BORNE_DISTANCE:="4 - de 20 a 50km"]
   jointureGeoMagasinsClients[(DISTANCE_CLIENT_magasins < 20), BORNE_DISTANCE:="3 - de 10 a 20km"]
   jointureGeoMagasinsClients[(DISTANCE_CLIENT_magasins < 10), BORNE_DISTANCE:="2 - de 5 a 10km"]
   jointureGeoMagasinsClients[(DISTANCE_CLIENT_magasins < 5), BORNE_DISTANCE:="1- moins de 5km"]
