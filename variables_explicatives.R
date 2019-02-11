@@ -287,4 +287,3 @@ setnames(datamining_client, old=c("COMP_MARGE"), new=c("Margeur"))
 datamining_client<-datamining_client%>%select(
 IDCLIENT,Margeur,CIVILITE_r,age,age_group,CAT_CLIENT,BORNE_DISTANCE,TOTAL_CA_TTC,rfm_score,top_univers_marge)
 
-resume_structure(datamining_client)
