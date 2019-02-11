@@ -1,0 +1,43 @@
+---
+title: "L3-Statistiques table finale"
+author: "Thomas FONTAINE, Dan GOLDMAN, Juliette LEMAINS, Nicolas ROBIN"
+date: "30 janvier 2019"
+output: 
+  html_document: default
+---
+
+```{r global_options, include=FALSE}
+knitr::opts_chunk$set(fig.width=12, fig.height=8, fig.path='Figs/',
+                      echo=TRUE, warning=FALSE, message=FALSE)
+```
+
+## R Markdown
+
+```{r setup, include=FALSE}
+source("Statistiques.R")
+source("variable_a_expliquer.R")
+source("variables_explicatives.R")
+```
+
+## I.3.2 - Table margeur  {.tabset}
+
+### Structure
+```{r margeur_structure, echo=FALSE}
+resume_structure(datamining_client)
+```
+
+### Tris a plat
+```{r margeur_tris_a_plat, echo=FALSE}
+tris_a_plat(datamining_client)
+```
+
+### Statistiques de base
+```{r margeur_stat_de_base, echo=FALSE}
+statistiques_de_base(datamining_client, options_affichage_stats_datamining_client)
+```
+
+### Sortie Console
+```{r margeur_Sortie Console_stats, echo=FALSE}
+statistiques(datamining_client)
+```
+

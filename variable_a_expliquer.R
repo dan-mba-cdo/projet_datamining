@@ -70,6 +70,7 @@ perimetre_client_remise_not_OUT$COMP_NB_ACTE_ACHAT <- ifelse(perimetre_client_re
 
 
 #initialisation de la table datamining client qui sera notre table pour la regression logistique
-datamining_client<-perimetre_client_remise_not_OUT%>%select(IDCLIENT, COMP_MARGE, COMP_TOTAL,COMP_NB_ACTE_ACHAT)
+datamining_client<-perimetre_client_remise_not_OUT%>%select(IDCLIENT, COMP_MARGE, COMP_TOTAL,COMP_NB_ACTE_ACHAT, TOTAL_CA_TTC)
 
+setDT(datamining_client)
 

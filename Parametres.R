@@ -20,7 +20,7 @@
 utilise_des_extraits_de_fichier <- FALSE
 
 # Boolean qui modifie le comportement de l'application si on l'exécute depuis R-Markdown ou depuis le fichier "Projet.R".
-execution_avec_RMarkdown <- FALSE
+execution_avec_RMarkdown <- TRUE
 
 # Declaration de la variable pour l'annee en cours 
 ANNEE_EN_COURS <- 2018
@@ -45,7 +45,7 @@ chemin_dossier_donnees_Nicolas <- "/Users/nrobin/Documents/GitHub/projet_datamin
 #   à son environnement de travail.
 #   Dans ce cas cela signifie qu'on lance l'exécution du programme à partir du fichier "Projet.Rmd"
 if (execution_avec_RMarkdown == TRUE) {
-  chemin_dossier_donnees_par_default <- chemin_dossier_donnees_Nicolas
+  chemin_dossier_donnees_par_default <- chemin_dossier_donnees_Dan
 }else{
   # Le dossier sera sélectionné par l'utilisateur lors de l'exécution du programme lors
   # de l'appel de la fonction cheminDossierFichiersDonnees()
@@ -302,7 +302,7 @@ table_clients_column_nature <- data.frame("IDCLIENT"="I", "CIVILITE"="N", "DATEN
 table_entetes_column_nature <- data.frame("IDTICKET"="I", "TIC_DATE"="N", "MAG_CODE"="N", "IDCLIENT"="I", "TIC_TOTALTTC"="C")
 table_lignes_column_nature <- data.frame("IDTICKET"="I", "NUMLIGNETICKET"="N", "IDARTICLE"="I", "QUANTITE"="C", "MONTANTREMISE"="C", "TOTAL"="C", "MARGESORTIE"="C")
 table_magasins_column_nature <- data.frame("CODESOCIETE"="I", "VILLE"="N", "LIBELLEDEPARTEMENT"="N", "LIBELLEREGIONCOMMERCIALE"="N")
-table_datamining_client_column_nature <- data.frame("IDCLIENT"="I", "COMP_MARGE"="N", "COMP_TOTAL"="N", "COMP_NB_ACTE_ACHAT"="N", "CIVILITE_r"="N", "age"="C", "age_group"="N", "CAT_CLIENT"="N","BORNE_DISTANCE"="N","rfm_score"="C","CODEUNIVERS"="N")
+table_datamining_client_column_nature <- data.frame("IDCLIENT"="I", "Margeur"="N", "CIVILITE_r"="N", "age"="C", "age_group"="N", "CAT_CLIENT"="N","BORNE_DISTANCE"="N","rfm_score"="C","TOTAL_CA_TTC"="C", "top_univers_marge"="N")
 
 
 # C'est ici que l'on choisit d'afficher telle ou telle statistique pour chacune des tables sur lesquelles on travaille.

@@ -13,6 +13,7 @@ clients_r<-clients%>%mutate(CIVILITE_r=recode(`CIVILITE`,
 ### VARIABLE tranche d'age #########
 # Suppression des lignes clients sans date de naissance.
 clients_r<- subset(clients_r, !is.na(DATENAISSANCE))
+setDT(clients_r)
 # creation d'une colonne age.
 clients_r$age <- 2018 - as.numeric(format(as.Date(clients_r$DATENAISSANCE, tryFormats = c("%d/%m/%Y")),"%Y"))
 # Suppression des clients agees de plus de 98ans.
@@ -22,7 +23,11 @@ clients_r<- subset(clients_r, age > 17 )
 # la population etudier sera donc les personnes qui ont renseiger leurs age et qui on actuellement entre 
 # 18 et 98 ans (inclus).
 # Creation des groupe client suivant leurs ages. 8 groupes de 18 � 98 ans.
-clients_r$age_group <- cut(clients_r$age,seq(18,98,10), include.lowest= TRUE, right = FALSE)
+#clients_r$age_group <- cut(clients_r$age,seq(18,98,10), include.lowest= TRUE, right = FALSE)
+clients_r[(age > 17 & age<=25), age_group:="1 - moins de 25 ans"]
+clients_r[(age > 26 & age<=40), age_group:="2 - de 26 a 40 ans"]
+clients_r[(age > 41 & age<=65), age_group:="3 - de 41 a 65 ans"]
+clients_r[(age > 65 & age<=98), age_group:="1 - plus de 65 ans"]
 
 datamining_client<-merge(datamining_client,clients_r, by="IDCLIENT", all.x=TRUE)
 
@@ -87,9 +92,9 @@ distanceGeo <- function(lat1, lon1, lat2, lon2)
   unMoinsA <- 1 - a
   c <- (2 * atan2(sqrt(a),sqrt(unMoinsA)))
   
-  distanceCalculée <- rayonTerre * c / 1000
+  distanceCalculee <- rayonTerre * c / 1000
   
-  return(distanceCalculée)
+  return(distanceCalculee)
 }
 
 distance_Client_Magasin <- function(table_insee, table_magasins, table_clients) {
@@ -275,23 +280,11 @@ top_univers_client_trie <- within(top_univers_client_trie, rank <- ave(MARGE,IDC
 top_univers_client_final<-subset(top_univers_client_trie, rank<2)
 
 datamining_client<-merge(datamining_client,top_univers_client_final, by="IDCLIENT", all.x=TRUE)
+setnames(datamining_client, old=c("CODEUNIVERS"), new=c("top_univers_marge"))
+setnames(datamining_client, old=c("COMP_MARGE"), new=c("Margeur"))
 
 
 datamining_client<-datamining_client%>%select(
-IDCLIENT,COMP_MARGE,COMP_TOTAL,COMP_NB_ACTE_ACHAT,CIVILITE_r, age, age_group, CAT_CLIENT,BORNE_DISTANCE,rfm_score,CODEUNIVERS)
-
-
-
-setDT(datamining_client)
-
+IDCLIENT,Margeur,CIVILITE_r,age,age_group,CAT_CLIENT,BORNE_DISTANCE,TOTAL_CA_TTC,rfm_score,top_univers_marge)
 
 resume_structure(datamining_client)
-
-
-tris_a_plat(datamining_client)
-
-
-statistiques_de_base(datamining_client, options_affichage_stats_datamining_client)
-
-
-statistiques(datamining_client)
