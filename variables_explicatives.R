@@ -10,26 +10,28 @@ clients_r<-clients%>%mutate(CIVILITE_r=recode(`CIVILITE`,
                                               "Mr" = "homme",
                                               "MONSIEUR" = "homme"))
 
+datamining_client<-merge(datamining_client,clients_r, by="IDCLIENT", all.x=TRUE)
+
 ### VARIABLE tranche d'age #########
 # Suppression des lignes clients sans date de naissance.
-clients_r<- subset(clients_r, !is.na(DATENAISSANCE))
-setDT(clients_r)
+clients_r2<- subset(clients_r, !is.na(DATENAISSANCE))
+setDT(clients_r2)
 # creation d'une colonne age.
-clients_r$age <- 2018 - as.numeric(format(as.Date(clients_r$DATENAISSANCE, tryFormats = c("%d/%m/%Y")),"%Y"))
+clients_r2$age <- 2018 - as.numeric(format(as.Date(clients_r2$DATENAISSANCE, tryFormats = c("%d/%m/%Y")),"%Y"))
 # Suppression des clients agees de plus de 98ans.
-clients_r<- subset(clients_r, age < 99 ) 
+clients_r2<- subset(clients_r2, age < 99 ) 
 # Suppression des clients agees de moins de 18ans.
-clients_r<- subset(clients_r, age > 17 ) 
+clients_r2<- subset(clients_r2, age > 17 ) 
 # la population etudier sera donc les personnes qui ont renseiger leurs age et qui on actuellement entre 
 # 18 et 98 ans (inclus).
 # Creation des groupe client suivant leurs ages. 8 groupes de 18 � 98 ans.
 #clients_r$age_group <- cut(clients_r$age,seq(18,98,10), include.lowest= TRUE, right = FALSE)
-clients_r[(age > 17 & age<=25), age_group:="1 - moins de 25 ans"]
-clients_r[(age > 26 & age<=40), age_group:="2 - de 26 a 40 ans"]
-clients_r[(age > 41 & age<=65), age_group:="3 - de 41 a 65 ans"]
-clients_r[(age > 65 & age<=98), age_group:="4 - plus de 65 ans"]
+clients_r2[(age > 17 & age<=25), age_group:="1 - moins de 25 ans"]
+clients_r2[(age > 26 & age<=40), age_group:="2 - de 26 a 40 ans"]
+clients_r2[(age > 41 & age<=65), age_group:="3 - de 41 a 65 ans"]
+clients_r2[(age > 65 & age<=98), age_group:="4 - plus de 65 ans"]
 
-datamining_client<-merge(datamining_client,clients_r, by="IDCLIENT", all.x=TRUE)
+datamining_client<-merge(datamining_client,clients_r2, by="IDCLIENT", all.x=TRUE)
 
 
 ### variable categorie de client ####
@@ -282,8 +284,11 @@ top_univers_client_final<-subset(top_univers_client_trie, rank<2)
 datamining_client<-merge(datamining_client,top_univers_client_final, by="IDCLIENT", all.x=TRUE)
 setnames(datamining_client, old=c("CODEUNIVERS"), new=c("top_univers_marge"))
 setnames(datamining_client, old=c("COMP_MARGE"), new=c("Margeur"))
-
+setnames(datamining_client, old=c("CIVILITE_r.x"), new=c("CIVILITE"))
+setnames(datamining_client, old=c("age_group"), new=c("Groupe_age"))
 
 datamining_client<-datamining_client%>%select(
-IDCLIENT,Margeur,CIVILITE_r,age,age_group,CAT_CLIENT,BORNE_DISTANCE,TOTAL_CA_TTC,rfm_score,top_univers_marge)
+IDCLIENT,Margeur,CIVILITE,age,Groupe_age,CAT_CLIENT,BORNE_DISTANCE,TOTAL_CA_TTC,rfm_score,top_univers_marge)
 
+
+tris_a_plat(datamining_client)

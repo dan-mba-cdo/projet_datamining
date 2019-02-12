@@ -19,6 +19,7 @@ source("variable_a_expliquer.R")
 source("variables_explicatives.R")
 ```
 
+
 ## I.3.2 - Table margeur  {.tabset}
 
 ### Structure
