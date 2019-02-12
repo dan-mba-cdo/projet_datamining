@@ -313,8 +313,25 @@ setnames(datamining_client, old=c("VIP.x"), new=c("VIP"))
 datamining_client<-datamining_client%>%select(
 IDCLIENT,Margeur,CIVILITE,age,Groupe_age,CAT_CLIENT,VIP,BORNE_DISTANCE,En_re_adhesion,En_fin_adhesion, TOTAL_CA_TTC,rfm_score,top_univers_marge,top_univers_ca)
 
-#write.csv(datamining_client, file = "Margeur.csv")
 
-#impt <- missForest(data.frame(datamining_client%>%select(-c(BORNE_DISTANCE,Groupe_age))))
 
-#memory.limit(size=25000)
+#IMPUTATION
+
+#AGE
+test <- select_if(datamining_client[is.na(age),]%>%select(-c(age,Groupe_age,BORNE_DISTANCE)),is.numeric)
+train <- select_if(datamining_client[!is.na(age),]%>%select(-c(age,Groupe_age,BORNE_DISTANCE)),is.numeric)
+class <- select_if(datamining_client[!is.na(age),],is.numeric)$age
+
+imputation <- data.frame(test%>%select(IDCLIENT))  
+imputation$AGE_PREDICT <- knn(train, test, k=5,cl=class)
+
+known <- data.frame(train%>%select(IDCLIENT))  
+known$AGE_PREDICT <- class
+
+datamining_client <- merge(datamining_client,rbind(imputation,known),all.x=T)
+
+#BORNE DISTANCE
+datamining_client$BORNE_DISTANCE_IMPUTE <- datamining_client$BORNE_DISTANCE
+
+datamining_client$BORNE_DISTANCE_IMPUTE[is.na(datamining_client$BORNE_DISTANCE)] <- 
+  names(table(datamining_client$BORNE_DISTANCE)[1])
