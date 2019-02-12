@@ -20,10 +20,34 @@ source("variables_explicatives.R")
 ```
 
 ## I.3.1 - Definition des variables explicatives
-Civilite :
+Civilite : variable qualitative nominale de 2 modalités. Pour cette variable il a ete necessaire de recoder les modalités "Madame" et "Monsieur".
 
+Groupe Age : en fonction de l'age du client, on definit une variable qualitative ordinale composée de 4 modalités.
 
-## I.3.2 - Table margeur  {.tabset}
+Categorie client : variable qualitative ordinale de 5 modalités qui determine une categorie au client. cette categorie est definit de la facon suivante :
+-	VIP : client étant VIP (VIP = 1)
+-	NEW_N2 : client ayant adhéré au cours de l'année N-2 (en fonction de la date début adhésion)
+-	NEW_N1 : client ayant adhéré au cours de l'année N-1 (en fonction de la date début adhésion)
+-	ADHERANT : client toujours en cours d'adhésion (date de fin d'adhésion > 2018/01/01)
+-	CHURNER : client ayant churner (date de fin d'adhésion < 2018/01/01)
+le critère le plus au-dessus est prioritaire, exemple : un client étant VIP, et ayant adhéré sur l'année N-1 sera compté comme étant VIP 
+
+VIP : variable qualitative binomiale. si le client est VIP alors la variable vaut 1, sinon 0
+
+Borne distance : En fonction de la distance entre l'adresse du client et l'adresse de son magasin d'adhesion, on définit une variable qualitative ordinale de 5 modalités
+
+En re adhesion : variable qualitative binomiale. Si le client a une date de re adhesion alors la variable vaut 1, sinon 0
+
+En fin d'adhesion : variable qualitative binomiale. Si le client a une date de fin d'adhesion alors la variable vaut 1, sinon 0
+
+Top univers marge : variable qualitative nominale de 5 modalités. Cette variable definit l'univers produit pour lequel le client a realise la meilleure marge
+
+Top univers montant : variable qualitative nominale de 5 modalités. Cette variable definit l'univers produit pour lequel le client a realise le meilleur CA
+
+## I.3.2 - Justification des valeurs manquantes
+Pour les valeurs manquantes, nous avons utilisé l'algorithme "random forest" afin d'attribuer
+
+## I.3.3 - Table margeur  {.tabset}
 
 ### Structure
 ```{r margeur_structure, echo=FALSE}

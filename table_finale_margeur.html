@@ -134,10 +134,22 @@ $(document).ready(function () {
 </div>
 <div id="i.3.1---definition-des-variables-explicatives" class="section level2">
 <h2>I.3.1 - Definition des variables explicatives</h2>
-<p>Civilite :</p>
+<p>Civilite : variable qualitative nominale de 2 modalités. Pour cette variable il a ete necessaire de recoder les modalités “Madame” et “Monsieur”.</p>
+<p>Groupe Age : en fonction de l’age du client, on definit une variable qualitative ordinale composée de 4 modalités.</p>
+<p>Categorie client : variable qualitative ordinale de 5 modalités qui determine une categorie au client. cette categorie est definit de la facon suivante : - VIP : client étant VIP (VIP = 1) - NEW_N2 : client ayant adhéré au cours de l’année N-2 (en fonction de la date début adhésion) - NEW_N1 : client ayant adhéré au cours de l’année N-1 (en fonction de la date début adhésion) - ADHERANT : client toujours en cours d’adhésion (date de fin d’adhésion &gt; 2018/01/01) - CHURNER : client ayant churner (date de fin d’adhésion &lt; 2018/01/01) le critère le plus au-dessus est prioritaire, exemple : un client étant VIP, et ayant adhéré sur l’année N-1 sera compté comme étant VIP</p>
+<p>VIP : variable qualitative binomiale. si le client est VIP alors la variable vaut 1, sinon 0</p>
+<p>Borne distance : En fonction de la distance entre l’adresse du client et l’adresse de son magasin d’adhesion, on définit une variable qualitative ordinale de 5 modalités</p>
+<p>En re adhesion : variable qualitative binomiale. Si le client a une date de re adhesion alors la variable vaut 1, sinon 0</p>
+<p>En fin d’adhesion : variable qualitative binomiale. Si le client a une date de fin d’adhesion alors la variable vaut 1, sinon 0</p>
+<p>Top univers marge : variable qualitative nominale de 5 modalités. Cette variable definit l’univers produit pour lequel le client a realise la meilleure marge</p>
+<p>Top univers montant : variable qualitative nominale de 5 modalités. Cette variable definit l’univers produit pour lequel le client a realise le meilleur CA</p>
 </div>
-<div id="i.3.2---table-margeur" class="section level2 tabset">
-<h2>I.3.2 - Table margeur</h2>
+<div id="i.3.2---justification-des-valeurs-manquantes" class="section level2">
+<h2>I.3.2 - Justification des valeurs manquantes</h2>
+<p>Pour les valeurs manquantes, nous avons utilisé l’algorithme “random forest” afin d’attribuer</p>
+</div>
+<div id="i.3.3---table-margeur" class="section level2 tabset">
+<h2>I.3.3 - Table margeur</h2>
 <div id="structure" class="section level3">
 <h3>Structure</h3>
 <table class="table table-striped table-bordered table-hover table-condensed table-responsive table-responsive" style="margin-left: auto; margin-right: auto;">
@@ -243,7 +255,7 @@ Nominale
 5
 </td>
 <td style="text-align:right;">
-41.718%
+39.862%
 </td>
 </tr>
 <tr>
@@ -368,6 +380,23 @@ Continue
 <tr>
 <td style="text-align:left;">
 TOP_UNIVERS_MARGE
+</td>
+<td style="text-align:left;">
+character
+</td>
+<td style="text-align:left;">
+Nominale
+</td>
+<td style="text-align:right;">
+5
+</td>
+<td style="text-align:right;">
+0%
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+TOP_UNIVERS_CA
 </td>
 <td style="text-align:left;">
 character
@@ -525,10 +554,10 @@ Groupe_age
 2 - de 26 a 40 ans
 </td>
 <td style="text-align:right;">
-99250
+103412
 </td>
 <td style="text-align:right;">
-14.6
+15.2
 </td>
 </tr>
 <tr>
@@ -536,10 +565,10 @@ Groupe_age
 3 - de 41 a 65 ans
 </td>
 <td style="text-align:right;">
-208707
+217200
 </td>
 <td style="text-align:right;">
-30.6
+31.9
 </td>
 </tr>
 <tr>
@@ -558,10 +587,10 @@ Groupe_age
 NA
 </td>
 <td style="text-align:right;">
-284412
+271757
 </td>
 <td style="text-align:right;">
-41.7
+39.9
 </td>
 </tr>
 <tr>
@@ -819,10 +848,10 @@ En_fin_adhesion
 0
 </td>
 <td style="text-align:right;">
-681709
+32
 </td>
 <td style="text-align:right;">
-100
+0
 </td>
 </tr>
 <tr>
@@ -830,10 +859,10 @@ En_fin_adhesion
 1
 </td>
 <td style="text-align:right;">
-32
+681709
 </td>
 <td style="text-align:right;">
-0
+100
 </td>
 </tr>
 <tr>
@@ -906,6 +935,78 @@ U4
 </td>
 <td style="text-align:right;">
 5
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+</td>
+<td style="text-align:right;">
+</td>
+<td style="text-align:right;">
+</td>
+</tr>
+<tr>
+<td style="text-align:left;font-weight: bold;color: black;background-color: #DDEBF7;">
+top_univers_ca
+</td>
+<td style="text-align:right;font-weight: bold;color: black;background-color: #DDEBF7;">
+</td>
+<td style="text-align:right;font-weight: bold;color: black;background-color: #DDEBF7;">
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+U0
+</td>
+<td style="text-align:right;">
+86469
+</td>
+<td style="text-align:right;">
+12.7
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+U1
+</td>
+<td style="text-align:right;">
+303406
+</td>
+<td style="text-align:right;">
+44.5
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+U2
+</td>
+<td style="text-align:right;">
+125631
+</td>
+<td style="text-align:right;">
+18.4
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+U3
+</td>
+<td style="text-align:right;">
+121116
+</td>
+<td style="text-align:right;">
+17.8
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+U4
+</td>
+<td style="text-align:right;">
+45119
+</td>
+<td style="text-align:right;">
+6.6
 </td>
 </tr>
 <tr>
@@ -1093,11 +1194,11 @@ RFM_SCORE
 ## Frequence de modalites : 
 ##                          n    %
 ## 1 - moins de 25 ans  12520  1.8
-## 2 - de 26 a 40 ans   99250 14.6
-## 3 - de 41 a 65 ans  208707 30.6
+## 2 - de 26 a 40 ans  103412 15.2
+## 3 - de 41 a 65 ans  217200 31.9
 ## 4 - plus de 65 ans   76852 11.3
-## NA                  284412 41.7
-## Taux de valeurs manquantes : 41.71848 % 
+## NA                  271757 39.9
+## Taux de valeurs manquantes : 39.86221 % 
 ## 
 ## ------------ CAT_CLIENT : ----------- 
 ## 
@@ -1156,10 +1257,10 @@ RFM_SCORE
 ## Valeurs unique : 2 
 ## Minimum : 0 Minimum 1: 1 
 ## Maximum : 1 Maximum 1: 0 
-## Moyenne : 0 
-## Median : 0 
+## Moyenne : 1 
+## Median : 1 
 ## Ecart type : 0 
-## Coefficient de variation : 146 
+## Coefficient de variation : 0 
 ## Taux de valeurs manquantes : 0 % 
 ## 
 ## ------------ TOTAL_CA_TTC : ----------- 
@@ -1197,6 +1298,19 @@ RFM_SCORE
 ## U2 107804 15.8
 ## U3 109175 16.0
 ## U4  34364  5.0
+## Taux de valeurs manquantes : 0 % 
+## 
+## ------------ top_univers_ca : ----------- 
+## 
+## Type : character 
+## Valeurs unique : 5 
+## Frequence de modalites : 
+##         n    %
+## U0  86469 12.7
+## U1 303406 44.5
+## U2 125631 18.4
+## U3 121116 17.8
+## U4  45119  6.6
 ## Taux de valeurs manquantes : 0 %</code></pre>
 </div>
 </div>

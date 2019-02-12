@@ -16,7 +16,7 @@ clients_r$En_re_adhesion <- ifelse(is.na(clients_r$DATEREADHESION),0,1)
 ### VARIABLE DATE FIN VALIDITE ADHESION#########
 clients_r<- clients_r%>%mutate(annee_finadhesion=
                                                 as.numeric(format(as.Date(clients_r$DATEFINADHESION, tryFormats = c("%d/%m/%Y")),"%Y")))
-clients_r$En_fin_adhesion <- ifelse(clients_r$annee_finadhesion==2100,1,0)
+clients_r$En_fin_adhesion <- ifelse(clients_r$annee_finadhesion==2100,0,1)
 
 datamining_client<-merge(datamining_client,clients_r, by="IDCLIENT", all.x=TRUE)
 
@@ -282,16 +282,27 @@ top_univers_client<-lignes_wrk_art_ent[,.(
   MARGE=sum(MARGESORTIE),
   NB_ACTE_ACHAT=.N),
   by=.(IDCLIENT, CODEUNIVERS)]
-#trie de la table top_univers_famille
-top_univers_client_trie<-top_univers_client[order(IDCLIENT,CODEUNIVERS, MARGE, decreasing = TRUE),]
+#trie de la table top_univers_famille par marge
+top_univers_client_trie_marge<-top_univers_client[order(IDCLIENT,CODEUNIVERS, MARGE, decreasing = TRUE),]
 #créé un rank de la marge par code univers
-top_univers_client_trie <- within(top_univers_client_trie, rank <- ave(MARGE,IDCLIENT,
+top_univers_client_trie_marge<- within(top_univers_client_trie_marge, rank <- ave(MARGE,IDCLIENT,
                                                                        FUN=function(x)rev(order(x))))
 #afficher le resultat du rank par code univers et code famille
-top_univers_client_final<-subset(top_univers_client_trie, rank<2)
-
-datamining_client<-merge(datamining_client,top_univers_client_final, by="IDCLIENT", all.x=TRUE)
+top_univers_client_final_marge<-subset(top_univers_client_trie_marge, rank<2)
+datamining_client<-merge(datamining_client,top_univers_client_final_marge, by="IDCLIENT", all.x=TRUE)
 setnames(datamining_client, old=c("CODEUNIVERS"), new=c("top_univers_marge"))
+
+
+#trie de la table top_univers_famille par CA
+top_univers_client_trie_ca<-top_univers_client[order(IDCLIENT,CODEUNIVERS, TOTAL, decreasing = TRUE),]
+#créé un rank de la marge par code univers
+top_univers_client_trie_ca<- within(top_univers_client_trie_ca, rank <- ave(TOTAL,IDCLIENT,
+                                                                                  FUN=function(x)rev(order(x))))
+#afficher le resultat du rank par code univers et code famille
+top_univers_client_final_ca<-subset(top_univers_client_trie_ca, rank<2)
+datamining_client<-merge(datamining_client,top_univers_client_final_ca, by="IDCLIENT", all.x=TRUE)
+setnames(datamining_client, old=c("CODEUNIVERS"), new=c("top_univers_ca"))
+
 setnames(datamining_client, old=c("COMP_MARGE"), new=c("Margeur"))
 setnames(datamining_client, old=c("CIVILITE_r.x"), new=c("CIVILITE"))
 setnames(datamining_client, old=c("age_group"), new=c("Groupe_age"))
@@ -300,8 +311,10 @@ setnames(datamining_client, old=c("En_fin_adhesion.x"), new=c("En_fin_adhesion")
 setnames(datamining_client, old=c("VIP.x"), new=c("VIP"))
 
 datamining_client<-datamining_client%>%select(
-IDCLIENT,Margeur,CIVILITE,age,Groupe_age,CAT_CLIENT,VIP,BORNE_DISTANCE,En_re_adhesion,En_fin_adhesion, TOTAL_CA_TTC,rfm_score,top_univers_marge)
+IDCLIENT,Margeur,CIVILITE,age,Groupe_age,CAT_CLIENT,VIP,BORNE_DISTANCE,En_re_adhesion,En_fin_adhesion, TOTAL_CA_TTC,rfm_score,top_univers_marge,top_univers_ca)
 
-write.csv(datamining_client, file = "Margeur.csv")
+#write.csv(datamining_client, file = "Margeur.csv")
 
-datamining_client<-fread("Margeur.csv")
+#impt <- missForest(data.frame(datamining_client%>%select(-c(BORNE_DISTANCE,Groupe_age))))
+
+#memory.limit(size=25000)

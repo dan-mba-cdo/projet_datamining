@@ -57,7 +57,7 @@ if (execution_avec_RMarkdown == TRUE) {
 # Elles sont automatiquement sélectionnées et installées dans le cas où elles sont manquantes.
 chargementDesLibraries <- function() {
   
-  libraries_utilies <- c('assertthat', 'data.table', 'dplyr', 'DT', 'dygraphs','flextable', 'formattable', 'ggplot2', 'grid', 'gridExtra', 'knitr', 'kableExtra', 'pander', 'plotly', 'questionr', 'rAmCharts', 'stringr', 'svDialogs', 'tidyverse', 'tinytex','bit64','rfm','lubridate')
+  libraries_utilies <- c('assertthat', 'data.table', 'dplyr', 'DT', 'dygraphs','flextable', 'formattable', 'ggplot2', 'grid', 'gridExtra', 'knitr', 'kableExtra', 'pander', 'plotly', 'questionr', 'rAmCharts', 'stringr', 'svDialogs', 'tidyverse', 'tinytex','bit64','rfm','lubridate','missForest')
   
   for (package in libraries_utilies) {
     if (!require(package, character.only=T, quietly=T)) {
@@ -298,11 +298,11 @@ table_finale<-data.table(nb_client=770163, nb_entete_ticket=6713822)
 # 2) "N" --> si la valeur est nominale.
 # 3) "C" --> si la valeur est continue.
 table_articles_column_nature <- data.frame("CODEARTICLE"="I", "CODEUNIVERS"="N", "CODEFAMILLE"="N", "CODESOUSFAMILLE"="N")
-table_clients_column_nature <- data.frame("IDCLIENT"="I", "CIVILITE"="N", "DATENAISSANCE"="N", "MAGASIN"="N", "DATEDEBUTADHESION"="N", "DATEREADHESION"="N", "DATEFINADHESION"="N", "VIP"="N", "CODEINSEE"="N", "PAYS"="N", "age"="C")
+table_clients_column_nature <- data.frame("IDCLIENT"="I", "CIVILITE"="N", "DATENAISSANCE"="N", "MAGASIN"="N", "DATEDEBUTADHESION"="N", "DATEREADHESION"="N", "DATEFINADHESION"="N", "VIP"="N", "CODEINSEE"="N", "PAYS"="N")
 table_entetes_column_nature <- data.frame("IDTICKET"="I", "TIC_DATE"="N", "MAG_CODE"="N", "IDCLIENT"="I", "TIC_TOTALTTC"="C")
 table_lignes_column_nature <- data.frame("IDTICKET"="I", "NUMLIGNETICKET"="N", "IDARTICLE"="I", "QUANTITE"="C", "MONTANTREMISE"="C", "TOTAL"="C", "MARGESORTIE"="C")
 table_magasins_column_nature <- data.frame("CODESOCIETE"="I", "VILLE"="N", "LIBELLEDEPARTEMENT"="N", "LIBELLEREGIONCOMMERCIALE"="N")
-table_datamining_client_column_nature <- data.frame("IDCLIENT"="I", "Margeur"="N", "CIVILITE"="N", "age"="C", "Groupe_age"="N", "CAT_CLIENT"="N","VIP"="N","BORNE_DISTANCE"="N","En_re_adhesion"="N","En_fin_adhesion"="N","rfm_score"="C","TOTAL_CA_TTC"="C", "top_univers_marge"="N")
+table_datamining_client_column_nature <- data.frame("IDCLIENT"="I", "Margeur"="N", "CIVILITE"="N", "age"="C", "Groupe_age"="N", "CAT_CLIENT"="N","VIP"="N","BORNE_DISTANCE"="N","En_re_adhesion"="N","En_fin_adhesion"="N","rfm_score"="C","TOTAL_CA_TTC"="C", "top_univers_marge"="N", "top_univers_ca"="N")
 
 
 # C'est ici que l'on choisit d'afficher telle ou telle statistique pour chacune des tables sur lesquelles on travaille.
