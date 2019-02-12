@@ -75,8 +75,8 @@ statistiques <- function(table) {
     cat("------------",column,": -----------",'\n\n')
     if (column %in% column_date){
       cat("Type :", "Date",'\n')
-      cat("Minimum :",min(format(table[[column]]),na.rm = TRUE))
-      cat(" Maximum :", max(format(table[[column]]),na.rm = TRUE),'\n')
+      cat("Minimum :",min(table[[column]],na.rm = TRUE))
+      cat(" Maximum :", max(table[[column]],na.rm = TRUE),'\n')
       cat("Taux de valeurs manquantes :", 
           (sum(is.na(table[[column]]))/length(table[[column]])*100),"%",'\n')
       cat('\n')
@@ -93,9 +93,9 @@ statistiques <- function(table) {
     }else if (!(column %in% column_id)){
       cat("Type :", typeof(table[[column]]),'\n')
       cat("Valeurs unique :",length(unique(table[[column]])),'\n')
-      cat("Minimum :",min(format(table[[column]]),na.rm = TRUE))
+      cat("Minimum :",min(table[[column]],na.rm = TRUE))
       cat(" Minimum 1:",sort(unique(table[[column]],na.rm = TRUE))[2],'\n')
-      cat("Maximum :", max(format(table[[column]]),na.rm = TRUE))
+      cat("Maximum :", max(table[[column]],na.rm = TRUE))
       cat(" Maximum 1:", sort(unique(table[[column]],na.rm = TRUE),decreasing = TRUE)[2],'\n')
       cat("Moyenne :",round(mean(table[[column]],na.rm = TRUE),1),'\n')
       cat("Median :",median(table[[column]],na.rm = TRUE),'\n')
@@ -335,9 +335,9 @@ statistiques_de_base <- function(table, ...) {
         
         for (index in 1:nb_parametres ) {
           if ((noms[index] == "column_name") && (valeurs[index]==TRUE)) {column_name <- toupper(column)}
-          if ((noms[index] == "min") && (valeurs[index]==TRUE)) {min <- as.character(min(format(table[[column]]),na.rm = TRUE))}
+          if ((noms[index] == "min") && (valeurs[index]==TRUE)) {min <- as.character(min(table[[column]],na.rm = TRUE))}
           if ((noms[index] == "min1") && (valeurs[index]==TRUE)) {min1 <- as.character(sort(unique(table[[column]],na.rm = TRUE))[2])}
-          if ((noms[index] == "max") && (valeurs[index]==TRUE)) {max <- as.character(max(format(table[[column]]),na.rm = TRUE))}
+          if ((noms[index] == "max") && (valeurs[index]==TRUE)) {max <- as.character(max(table[[column]],na.rm = TRUE))}
           if ((noms[index] == "max1") && (valeurs[index]==TRUE)) {max1 <- as.character(sort(unique(table[[column]],na.rm = TRUE),decreasing = TRUE)[2])}
           if ((noms[index] == "mean") && (valeurs[index]==TRUE)) {mean <- as.character(round(mean(table[[column]],na.rm = TRUE),PRECISION))}
           if ((noms[index] == "median") && (valeurs[index]==TRUE)) {median <- as.character(round(median(table[[column]],na.rm = TRUE), PRECISION))}
@@ -380,8 +380,8 @@ statistiques_de_base <- function(table, ...) {
         
         for (index in 1:nb_parametres ) {
           if ((noms[index] == "column_name") && (valeurs[index]==TRUE)) {column_name <- toupper(column)}
-          if ((noms[index] == "min") && (valeurs[index]==TRUE)) {min <- as.character(min(format(table[[column]]),na.rm = TRUE))}
-          if ((noms[index] == "max") && (valeurs[index]==TRUE)) {max <- as.character(max(format(table[[column]]),na.rm = TRUE))}
+          if ((noms[index] == "min") && (valeurs[index]==TRUE)) {min <- as.character(min(table[[column]],na.rm = TRUE))}
+          if ((noms[index] == "max") && (valeurs[index]==TRUE)) {max <- as.character(max(table[[column]],na.rm = TRUE))}
         }
         
         # Si c'est la 1ère fois qu'on rencontre la colonne...

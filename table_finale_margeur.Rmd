@@ -19,6 +19,9 @@ source("variable_a_expliquer.R")
 source("variables_explicatives.R")
 ```
 
+## I.3.1 - Definition des variables explicatives
+Civilite :
+
 
 ## I.3.2 - Table margeur  {.tabset}
 
@@ -26,6 +29,7 @@ source("variables_explicatives.R")
 ```{r margeur_structure, echo=FALSE}
 resume_structure(datamining_client)
 ```
+
 
 ### Tris a plat
 ```{r margeur_tris_a_plat, echo=FALSE}

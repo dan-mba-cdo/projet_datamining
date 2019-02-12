@@ -10,7 +10,16 @@ clients_r<-clients%>%mutate(CIVILITE_r=recode(`CIVILITE`,
                                               "Mr" = "homme",
                                               "MONSIEUR" = "homme"))
 
+### VARIABLE FLAG REHADHESION #########
+clients_r$En_re_adhesion <- ifelse(is.na(clients_r$DATEREADHESION),0,1)
+
+### VARIABLE DATE FIN VALIDITE ADHESION#########
+clients_r<- clients_r%>%mutate(annee_finadhesion=
+                                                as.numeric(format(as.Date(clients_r$DATEFINADHESION, tryFormats = c("%d/%m/%Y")),"%Y")))
+clients_r$En_fin_adhesion <- ifelse(clients_r$annee_finadhesion==2100,1,0)
+
 datamining_client<-merge(datamining_client,clients_r, by="IDCLIENT", all.x=TRUE)
+
 
 ### VARIABLE tranche d'age #########
 # Suppression des lignes clients sans date de naissance.
@@ -27,8 +36,8 @@ clients_r2<- subset(clients_r2, age > 17 )
 # Creation des groupe client suivant leurs ages. 8 groupes de 18 � 98 ans.
 #clients_r$age_group <- cut(clients_r$age,seq(18,98,10), include.lowest= TRUE, right = FALSE)
 clients_r2[(age > 17 & age<=25), age_group:="1 - moins de 25 ans"]
-clients_r2[(age > 26 & age<=40), age_group:="2 - de 26 a 40 ans"]
-clients_r2[(age > 41 & age<=65), age_group:="3 - de 41 a 65 ans"]
+clients_r2[(age > 25 & age<=40), age_group:="2 - de 26 a 40 ans"]
+clients_r2[(age > 40 & age<=65), age_group:="3 - de 41 a 65 ans"]
 clients_r2[(age > 65 & age<=98), age_group:="4 - plus de 65 ans"]
 
 datamining_client<-merge(datamining_client,clients_r2, by="IDCLIENT", all.x=TRUE)
@@ -38,21 +47,21 @@ datamining_client<-merge(datamining_client,clients_r2, by="IDCLIENT", all.x=TRUE
 #VIP : client etant VIP (VIP = 1)
 VIP <- clients[clients$VIP==1,]
 setDT(VIP)
-VIP<-VIP[,CAT_CLIENT:='VIP']
+VIP<-VIP[,CAT_CLIENT:='1 - VIP']
 VIP<-VIP%>%select(IDCLIENT,CAT_CLIENT)
 
 #NEW_N2 : client ayant adhere au cours de l'annee N-2 (date debut adhesion)
 NEW_N2 <-clients[(clients$VIP!=1)&
                    (format(as.Date(clients$DATEDEBUTADHESION, tryFormats = c("%d/%m/%Y")),"%Y")==2016),]
 setDT(NEW_N2)
-NEW_N2<-NEW_N2[,CAT_CLIENT:='NEW_N2']
+NEW_N2<-NEW_N2[,CAT_CLIENT:='2 - NEW_N2']
 NEW_N2<-NEW_N2%>%select(IDCLIENT,CAT_CLIENT)
 
 #NEW_N1 : client ayant adhere au cours de l'annee N-1 (date debut adhesion)
 NEW_N1 <-clients[(clients$VIP!=1)&
                    (format(as.Date(clients$DATEDEBUTADHESION, tryFormats = c("%d/%m/%Y")),"%Y")==2017),]
 setDT(NEW_N1)
-NEW_N1<-NEW_N1[,CAT_CLIENT:='NEW_N1']
+NEW_N1<-NEW_N1[,CAT_CLIENT:='3 - NEW_N1']
 NEW_N1<-NEW_N1%>%select(IDCLIENT,CAT_CLIENT)
 
 #ADHERANT : client toujours en cours d'adhesion (date de fin d'adhesion > 2018/01/01)
@@ -60,7 +69,7 @@ ADHERANT <-clients[(clients$VIP!=1)&
                      format(as.Date(clients$DATEDEBUTADHESION, tryFormats = c("%d/%m/%Y")),"%Y")<2016&
                      (format(as.Date(clients$DATEFINADHESION, tryFormats = c("%d/%m/%Y")),"%Y-%m-%d"))>as.Date("2018-01-01"),]
 setDT(ADHERANT)
-ADHERANT<-ADHERANT[,CAT_CLIENT:='ADHERANT']
+ADHERANT<-ADHERANT[,CAT_CLIENT:='4 - ADHERANT']
 ADHERANT<-ADHERANT%>%select(IDCLIENT,CAT_CLIENT)
 
 
@@ -69,7 +78,7 @@ CHURNER <-clients[((format(as.Date(clients$DATEFINADHESION, tryFormats = c("%d/%
                     (clients$VIP!=1)&
                     format(as.Date(clients$DATEDEBUTADHESION, tryFormats = c("%d/%m/%Y")),"%Y")<2016,]
 setDT(CHURNER)
-CHURNER<-CHURNER[,CAT_CLIENT:='CHURNER']
+CHURNER<-CHURNER[,CAT_CLIENT:='5 - CHURNER']
 CHURNER<-CHURNER%>%select(IDCLIENT,CAT_CLIENT)
 
 CAT_CLIENT <- rbind(VIP,NEW_N2,NEW_N1,ADHERANT,CHURNER)
@@ -286,9 +295,13 @@ setnames(datamining_client, old=c("CODEUNIVERS"), new=c("top_univers_marge"))
 setnames(datamining_client, old=c("COMP_MARGE"), new=c("Margeur"))
 setnames(datamining_client, old=c("CIVILITE_r.x"), new=c("CIVILITE"))
 setnames(datamining_client, old=c("age_group"), new=c("Groupe_age"))
+setnames(datamining_client, old=c("En_re_adhesion.x"), new=c("En_re_adhesion"))
+setnames(datamining_client, old=c("En_fin_adhesion.x"), new=c("En_fin_adhesion"))
+setnames(datamining_client, old=c("VIP.x"), new=c("VIP"))
 
 datamining_client<-datamining_client%>%select(
-IDCLIENT,Margeur,CIVILITE,age,Groupe_age,CAT_CLIENT,BORNE_DISTANCE,TOTAL_CA_TTC,rfm_score,top_univers_marge)
+IDCLIENT,Margeur,CIVILITE,age,Groupe_age,CAT_CLIENT,VIP,BORNE_DISTANCE,En_re_adhesion,En_fin_adhesion, TOTAL_CA_TTC,rfm_score,top_univers_marge)
 
+write.csv(datamining_client, file = "Margeur.csv")
 
-tris_a_plat(datamining_client)
+datamining_client<-fread("Margeur.csv")
