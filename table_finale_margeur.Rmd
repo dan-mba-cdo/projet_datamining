@@ -1,7 +1,7 @@
 ---
 title: "L3-Statistiques table finale"
 author: "Thomas FONTAINE, Dan GOLDMAN, Juliette LEMAINS, Nicolas ROBIN"
-date: "30 janvier 2019"
+date: "12 février 2019"
 output: 
   html_document: default
 ---
@@ -19,33 +19,74 @@ source("variable_a_expliquer.R")
 source("variables_explicatives.R")
 ```
 
-## I.3.1 - Definition des variables explicatives
-Civilite : variable qualitative nominale de 2 modalités. Pour cette variable il a ete necessaire de recoder les modalités "Madame" et "Monsieur".
+## I.3.1 - Définition des variables explicatives
 
-Groupe Age : en fonction de l'age du client, on definit une variable qualitative ordinale composée de 4 modalités.
+Parmi les variables disponibles dans les tables de ce projet, nous avons identifié 2 variables explicative utilisables quasiment en l'état.
 
-Categorie client : variable qualitative ordinale de 5 modalités qui determine une categorie au client. cette categorie est definit de la facon suivante :
--	VIP : client étant VIP (VIP = 1)
--	NEW_N2 : client ayant adhéré au cours de l'année N-2 (en fonction de la date début adhésion)
--	NEW_N1 : client ayant adhéré au cours de l'année N-1 (en fonction de la date début adhésion)
--	ADHERANT : client toujours en cours d'adhésion (date de fin d'adhésion > 2018/01/01)
--	CHURNER : client ayant churner (date de fin d'adhésion < 2018/01/01)
-le critère le plus au-dessus est prioritaire, exemple : un client étant VIP, et ayant adhéré sur l'année N-1 sera compté comme étant VIP 
+### I.3.1.1 - Variable Civilité
 
-VIP : variable qualitative binomiale. si le client est VIP alors la variable vaut 1, sinon 0
+Cette variable issue de la table **Client** contient des valeurs différentes qui pourtant ont une signification équivalente, par exemple "Madame" et "Mme". Nous avons donc rétablit la cohérence en réaffectant chacune des variables en deux modalités uniques : "Madame" et "Monsieur".
 
-Borne distance : En fonction de la distance entre l'adresse du client et l'adresse de son magasin d'adhesion, on définit une variable qualitative ordinale de 5 modalités
+### I.3.1.2 - Variable VIP
 
-En re adhesion : variable qualitative binomiale. Si le client a une date de re adhesion alors la variable vaut 1, sinon 0
+Cette variable est une variable qualitative binomiale four ie dans la table **client**. Si le client est VIP alors la variable vaut 1, sinon elle vaut 0.
 
-En fin d'adhesion : variable qualitative binomiale. Si le client a une date de fin d'adhesion alors la variable vaut 1, sinon 0
+---
 
-Top univers marge : variable qualitative nominale de 5 modalités. Cette variable definit l'univers produit pour lequel le client a realise la meilleure marge
+Nous avons jugé utile d'ajouter 7 variables nouvelles explicatives. Elles sont le fruit soit d'un calcul, soit d'un regroupement à partir d'une ou plusieurs autres variables.
 
-Top univers montant : variable qualitative nominale de 5 modalités. Cette variable definit l'univers produit pour lequel le client a realise le meilleur CA
+### I.3.1.3 - Variable Groupe_age
+
+Cette variable a été ajoutée. Elle a été calculée à partie de la variable **DATENAISSANCE**. Une fois l'âge de chacun des clients calculé, on définit une variable qualitative ordinale composée de 4 modalités :
+
+* 1 - moins de 26 ans
+* 2 - de 26 a 40 ans
+* 3 - de 41 a 65 ans
+* 4 - plus de 65 ans
+
+### I.3.1.4 - Variable CAT_CLIENT
+
+La variable **CAT_CLIENT**. Cette nouvelle variable est une variable qualitative ordinale de 5 modalités. Elle a pour objectif de déterminer une categorie au client. Cette categorie est definit de la facon suivante :
+
+*	VIP : client étant VIP (VIP = 1)
+
+* NEW_N2 : client ayant adhéré au cours de l'année N-2 (en fonction de la date début adhésion)
+
+* NEW_N1 : client ayant adhéré au cours de l'année N-1 (en fonction de la date début adhésion)
+
+* ADHERANT : client toujours en cours d'adhésion (date de fin d'adhésion > 2018/01/01)
+
+* CHURNER : client ayant churner (date de fin d'adhésion < 2018/01/01)
+
+**Le critère le plus au-dessus est prioritaire**. Par exemple : un client étant VIP ayant adhéré sur l'année N-1 sera compté comme étant VIP 
+
+
+### I.3.1.5 - Variable BORNE_DISTANCE
+
+Cette variable est calculée en fonction de la distance entre l'adresse du client et l'adresse de son magasin d'adhésion. On a ensuite défini une variable qualitative ordinale de 5 modalités respectant les modalités définies pour le projet R.
+
+
+### I.3.1.6 - Variable En_re_adhesion
+
+Cette nouvelle variable est qualitative et binomianle. Si une date de ré-adhésion a été affectée au client, alors la variable vaut 1, sinon elle vaut 0.
+
+### I.3.1.7 - Variable En_fin_adhesion
+
+Cette variable est qualitative et binomiale. Si le client a une date de fin d'adhésion, alors la variable vaut 1, sinon elle vaut 0.
+
+### I.3.1.8 - top_univers_marge
+
+Cette variable est une variable qualitative nominale de 5 modalités. Elle définit l'univers produit pour lequel le client a réalisé la meilleure marge.
+
+### I.3.1.9 - Top univers montant
+
+Cette variable est une variable qualitative nominale de 5 modalités. Elle définit l'univers produit pour lequel le client a realisé le meilleur chiffre d'affaire.
+
 
 ## I.3.2 - Justification des valeurs manquantes
-Pour les valeurs manquantes, nous avons utilisé l'algorithme "random forest" afin d'attribuer
+
+Pour les valeurs manquantes, nous avons choisi d'utiliser l'**algorithme des plus proches voisins** afin de leur attribuer la valeur la plus problable.
+
 
 ## I.3.3 - Table margeur  {.tabset}
 
