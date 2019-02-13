@@ -33,9 +33,9 @@ clients_r2<- subset(clients_r2, age < 99 )
 clients_r2<- subset(clients_r2, age > 17 ) 
 # la population etudier sera donc les personnes qui ont renseiger leurs age et qui on actuellement entre 
 # 18 et 98 ans (inclus).
-# Creation des groupe client suivant leurs ages. 8 groupes de 18 � 98 ans.
+# Creation des groupe client suivant leurs ages. 8 groupes de 18 à 98 ans.
 #clients_r$age_group <- cut(clients_r$age,seq(18,98,10), include.lowest= TRUE, right = FALSE)
-clients_r2[(age > 17 & age<=25), age_group:="1 - moins de 25 ans"]
+clients_r2[(age > 17 & age<=25), age_group:="1 - moins de 26 ans"]
 clients_r2[(age > 25 & age<=40), age_group:="2 - de 26 a 40 ans"]
 clients_r2[(age > 40 & age<=65), age_group:="3 - de 41 a 65 ans"]
 clients_r2[(age > 65 & age<=98), age_group:="4 - plus de 65 ans"]
@@ -329,6 +329,8 @@ known <- data.frame(train%>%select(IDCLIENT))
 known$AGE_PREDICT <- class
 
 datamining_client <- merge(datamining_client,rbind(imputation,known),all.x=T)
+
+datamining_client$AGE_PREDICT <- as.numeric(datamining_client$AGE_PREDICT)
 
 #BORNE DISTANCE
 datamining_client$BORNE_DISTANCE_IMPUTE <- datamining_client$BORNE_DISTANCE
