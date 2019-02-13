@@ -57,7 +57,7 @@ if (execution_avec_RMarkdown == TRUE) {
 # Elles sont automatiquement sélectionnées et installées dans le cas où elles sont manquantes.
 chargementDesLibraries <- function() {
   
-  libraries_utilies <- c('assertthat', 'data.table', 'dplyr', 'DT', 'dygraphs','flextable', 'formattable', 'ggplot2', 'grid', 'gridExtra', 'knitr', 'kableExtra', 'pander', 'plotly', 'questionr', 'rAmCharts', 'stringr', 'svDialogs', 'tidyverse', 'tinytex','bit64','rfm','lubridate','missForest')
+  libraries_utilies <- c('assertthat', 'class', 'data.table', 'dplyr', 'DT', 'dygraphs','flextable', 'formattable', 'ggplot2', 'grid', 'gridExtra', 'knitr', 'kableExtra', 'pander', 'plotly', 'questionr', 'rAmCharts', 'stringr', 'svDialogs', 'tidyverse', 'tinytex','bit64','rfm','lubridate','missForest')
   
   for (package in libraries_utilies) {
     if (!require(package, character.only=T, quietly=T)) {
@@ -302,7 +302,7 @@ table_clients_column_nature <- data.frame("IDCLIENT"="I", "CIVILITE"="N", "DATEN
 table_entetes_column_nature <- data.frame("IDTICKET"="I", "TIC_DATE"="N", "MAG_CODE"="N", "IDCLIENT"="I", "TIC_TOTALTTC"="C")
 table_lignes_column_nature <- data.frame("IDTICKET"="I", "NUMLIGNETICKET"="N", "IDARTICLE"="I", "QUANTITE"="C", "MONTANTREMISE"="C", "TOTAL"="C", "MARGESORTIE"="C")
 table_magasins_column_nature <- data.frame("CODESOCIETE"="I", "VILLE"="N", "LIBELLEDEPARTEMENT"="N", "LIBELLEREGIONCOMMERCIALE"="N")
-table_datamining_client_column_nature <- data.frame("IDCLIENT"="I", "Margeur"="N", "CIVILITE"="N", "age"="C", "Groupe_age"="N", "CAT_CLIENT"="N","VIP"="N","BORNE_DISTANCE"="N","En_re_adhesion"="N","En_fin_adhesion"="N","rfm_score"="C","TOTAL_CA_TTC"="C", "top_univers_marge"="N", "top_univers_ca"="N")
+table_datamining_client_column_nature <- data.frame("IDCLIENT"="I", "Margeur"="N", "CIVILITE"="N", "age"="C", "Groupe_age"="N", "CAT_CLIENT"="N","VIP"="N","BORNE_DISTANCE"="N","En_re_adhesion"="N","En_fin_adhesion"="N","TOTAL_CA_TTC"="C", "rfm_score"="C", "top_univers_marge"="N", "top_univers_ca"="N", "AGE_PREDICT"="C", "BORNE_DISTANCE_IMPUTE"="N")
 
 
 # C'est ici que l'on choisit d'afficher telle ou telle statistique pour chacune des tables sur lesquelles on travaille.
