@@ -45,7 +45,7 @@ chemin_dossier_donnees_Nicolas <- "/Users/nrobin/Documents/GitHub/projet_datamin
 #   à son environnement de travail.
 #   Dans ce cas cela signifie qu'on lance l'exécution du programme à partir du fichier "Projet.Rmd"
 if (execution_avec_RMarkdown == TRUE) {
-  chemin_dossier_donnees_par_default <- chemin_dossier_donnees_Nicolas
+  chemin_dossier_donnees_par_default <- chemin_dossier_donnees_Dan
 }else{
   # Le dossier sera sélectionné par l'utilisateur lors de l'exécution du programme lors
   # de l'appel de la fonction cheminDossierFichiersDonnees()
@@ -302,8 +302,7 @@ table_clients_column_nature <- data.frame("IDCLIENT"="I", "CIVILITE"="N", "DATEN
 table_entetes_column_nature <- data.frame("IDTICKET"="I", "TIC_DATE"="N", "MAG_CODE"="N", "IDCLIENT"="I", "TIC_TOTALTTC"="C")
 table_lignes_column_nature <- data.frame("IDTICKET"="I", "NUMLIGNETICKET"="N", "IDARTICLE"="I", "QUANTITE"="C", "MONTANTREMISE"="C", "TOTAL"="C", "MARGESORTIE"="C")
 table_magasins_column_nature <- data.frame("CODESOCIETE"="I", "VILLE"="N", "LIBELLEDEPARTEMENT"="N", "LIBELLEREGIONCOMMERCIALE"="N")
-table_datamining_client_column_nature <- data.frame("IDCLIENT"="I", "Margeur"="N", "CIVILITE"="N", "age"="C", "Groupe_age"="N", "CAT_CLIENT"="N","VIP"="N","BORNE_DISTANCE"="N","En_re_adhesion"="N","En_fin_adhesion"="N","TOTAL_CA_TTC"="C", "rfm_score"="C", "top_univers_marge"="N", "top_univers_ca"="N", "AGE_PREDICT"="C", "BORNE_DISTANCE_IMPUTE"="N")
-
+table_datamining_client_column_nature <- data.frame("IDCLIENT"="I", "Margeur"="N", "CIVILITE"="N", "Groupe_age"="N", "CAT_CLIENT"="N","VIP"="N","BORNE_DISTANCE"="N","En_re_adhesion"="N","En_fin_adhesion"="N","TOTAL_CA_TTC"="C", "rfm_score"="C", "top_univers_marge"="N", "top_univers_ca"="N")
 
 # C'est ici que l'on choisit d'afficher telle ou telle statistique pour chacune des tables sur lesquelles on travaille.
 options_affichage_stats_articles <- list(column_name=TRUE, min=TRUE, min1=TRUE, max=TRUE, max1=TRUE, mean=TRUE, median=TRUE, std=TRUE, cv=TRUE)

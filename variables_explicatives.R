@@ -328,12 +328,27 @@ imputation$AGE_PREDICT <- knn(train, test, k=5,cl=class)
 known <- data.frame(train%>%select(IDCLIENT))  
 known$AGE_PREDICT <- class
 
-datamining_client <- merge(datamining_client,rbind(imputation,known),all.x=T)
+datamining_client <- merge(datamining_client,rbind(imputation,known),by="IDCLIENT",all.x=T)
 
-datamining_client$AGE_PREDICT <- as.numeric(datamining_client$AGE_PREDICT)
+datamining_client$AGE_PREDICT <- as.numeric(as.character(datamining_client$AGE_PREDICT))
+
+datamining_client[(AGE_PREDICT > 17 & AGE_PREDICT<=25), Groupe_age:="1 - moins de 26 ans"]
+datamining_client[(AGE_PREDICT > 25 & AGE_PREDICT<=40), Groupe_age:="2 - de 26 a 40 ans"]
+datamining_client[(AGE_PREDICT > 40 & AGE_PREDICT<=65), Groupe_age:="3 - de 41 a 65 ans"]
+datamining_client[(AGE_PREDICT > 65 & AGE_PREDICT<=98), Groupe_age:="4 - plus de 65 ans"]
+
 
 #BORNE DISTANCE
 datamining_client$BORNE_DISTANCE_IMPUTE <- datamining_client$BORNE_DISTANCE
 
-datamining_client$BORNE_DISTANCE_IMPUTE[is.na(datamining_client$BORNE_DISTANCE)] <- 
+datamining_client$BORNE_DISTANCE_IMPUTE[is.na(datamining_client$BORNE_DISTANCE_IMPUTE)] <- 
   names(table(datamining_client$BORNE_DISTANCE)[1])
+
+
+datamining_client<-datamining_client%>%select(
+  IDCLIENT,Margeur,CIVILITE,Groupe_age,CAT_CLIENT,VIP,BORNE_DISTANCE_IMPUTE,En_re_adhesion,En_fin_adhesion, TOTAL_CA_TTC,rfm_score,top_univers_marge,top_univers_ca)
+
+setnames(datamining_client, old=c("BORNE_DISTANCE_IMPUTE"), new=c("BORNE_DISTANCE"))
+
+
+
