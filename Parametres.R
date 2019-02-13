@@ -45,7 +45,7 @@ chemin_dossier_donnees_Nicolas <- "/Users/nrobin/Documents/GitHub/projet_datamin
 #   à son environnement de travail.
 #   Dans ce cas cela signifie qu'on lance l'exécution du programme à partir du fichier "Projet.Rmd"
 if (execution_avec_RMarkdown == TRUE) {
-  chemin_dossier_donnees_par_default <- chemin_dossier_donnees_Dan
+  chemin_dossier_donnees_par_default <- chemin_dossier_donnees_Nicolas
 }else{
   # Le dossier sera sélectionné par l'utilisateur lors de l'exécution du programme lors
   # de l'appel de la fonction cheminDossierFichiersDonnees()
